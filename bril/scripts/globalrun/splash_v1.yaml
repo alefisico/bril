@@ -1,0 +1,311 @@
+#
+# host def : logical to physical mapping
+#
+
+host: &bcm1fhost srv-C2D05-09.cms 
+host: &centralhost srv-C2D05-09.cms
+
+#
+# rcms params
+#
+rcmsparams:
+   host: cmsrc-lumidev.cms
+   rcmsuser: lumidev
+   runtag: splash_v1
+ 
+#
+# Configurations
+#
+brildaqFM:
+   - resourcetype: XdaqExecutive #central eventingserver    
+     hostname: *centralhost
+     port: 30010
+     endpoint: 30025
+     logURL: 
+     logLevel: INFO
+     role: eventing
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps: 
+       - config: templates/eventingserver.tpl
+         id: 30
+       - config: templates/ptutcp.tpl
+         id: 12
+         maxblocksize: 65536
+         committedpoolsize: 0x17580000
+       - config: templates/xmemprobe.tpl
+   - resourcetype: XdaqExecutive #bhm eventingserver    
+     hostname: *bhmhost
+     port: 30010
+     endpoint: 30025
+     logURL: 
+     logLevel: INFO
+     role: eventing
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps: 
+       - config: templates/eventingserver.tpl
+         id: 30
+       - config: templates/ptutcp.tpl
+         id: 12
+         maxblocksize: 65536
+         committedpoolsize: 0x17580000
+       - config: templates/xmemprobe.tpl 
+   - resourcetype: XdaqExecutive #bcm1f eventingserver    
+     hostname: *bcm1fhost
+     port: 30010
+     endpoint: 30025
+     logURL: 
+     logLevel: INFO
+     role: eventing
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps: 
+       - config: templates/eventingserver.tpl
+         id: 30
+       - config: templates/ptutcp.tpl
+         id: 12
+         maxblocksize: 65536
+         committedpoolsize: 0x17580000
+       - config: templates/xmemprobe.tpl 
+   - resourcetype: XdaqExecutive #plt eventingserver    
+     hostname: *plthost
+     port: 30010
+     endpoint: 30025
+     logURL: 
+     logLevel: INFO
+     role: eventing
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps: 
+       - config: templates/eventingserver.tpl
+         id: 30
+       - config: templates/ptutcp.tpl
+         id: 12
+         maxblocksize: 65536
+         committedpoolsize: 0x17580000
+       - config: templates/xmemprobe.tpl 
+
+bhmFM:
+   - resourcetype: XdaqExecutive #bhmprocessor
+     hostname: *bhmhost
+     port: 9110
+     endpoint: 9111   
+     logURL: xml://cmsrc-lumidev.cms:46010
+     logLevel: ERROR
+     role: eventing
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps:
+       - config: templates/ptutcp.tpl
+         id: 12
+         maxblocksize: 65536
+         committedpoolsize: 0x17580000
+       - config: templates/eventingsubscriber.tpl
+         bus: bhm
+         id: 103
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*bhmhost,30025] ]
+       - config: templates/eventingpublisher.tpl
+         bus: bhm
+         id: 104
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*bhmhost,30025] ]
+       - config: templates/eventingpublisher.tpl
+         bus: brildata
+         id: 105
+         instance: 1
+         eventings: [ ["utcp://%s:%d",*centralhost,30025] ]
+       - config: templates/bhmprocessor.tpl
+         id: 172
+         instance: 0
+         eventinginput: [ { bus: bhm, topics: "bhmocchist,bhmamphist" } ]
+         eventingoutput: [ { topic: bhmbxbkg, buses: "bhm,brildata" } ]
+   - resourcetype: XdaqExecutive #bhmsource
+     hostname: *bhmhost
+     port: 9100
+     endpoint: 9101
+     logURL: xml://cmsrc-lumidev.cms:46010
+     logLevel: ERROR
+     role: clock
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps:
+       - config: templates/ptutcp.tpl
+         id: 12
+         maxblocksize: 65536
+         committedpoolsize: 0x17580000
+       - config: templates/eventingsubscriber.tpl
+         bus: bhm
+         id: 170
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*bhmhost,30025] ]  
+       - config: templates/eventingpublisher.tpl
+         bus: bhm
+         id: 180
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*bhmhost,30025] ]
+       - config: templates/bhmsource.tpl
+         id: 190
+         instance: 0
+         sim: "true"
+         bus: bhm
+         topics: "bhmocchist,bhmamphist"
+       - config: templates/xmemprobe.tpl
+       
+bcm1fFM:
+   - resourcetype: XdaqExecutive #bcm1fprocessor
+     hostname: *bcm1fhost
+     port: 9010
+     endpoint: 9011
+     logURL: xml://cmsrc-lumidev.cms:46010
+     logLevel: ERROR
+     role: eventing
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps:
+       - config: templates/ptutcp.tpl
+         id: 12
+         maxblocksize: 65536
+         committedpoolsize: 0x17580000
+       - config: templates/eventingsubscriber.tpl
+         bus: bcm1f
+         id: 170
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*bcm1fhost,30025] ] 
+       - config: templates/eventingpublisher.tpl
+         bus: bcm1f
+         id: 180
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*bcm1fhost,30025] ]
+       - config: templates/eventingpublisher.tpl
+         bus: brildata
+         id: 181
+         instance: 1
+         eventings: [ ["utcp://%s:%d",*centralhost,30025] ]
+       - config: templates/bcm1fprocessor.tpl
+         id: 190
+         instance: 0
+         eventinginput: [ { bus: bcm1f, topics: "bcm1fhist" } ]
+         eventingoutput: [ { topic: bcm1fbxlumi, buses: "bcm1f,brildata" } ]
+   - resourcetype: XdaqExecutive #bcm1fsource
+     hostname: *bcm1fhost
+     port: 9000
+     endpoint: 9001
+     logURL: xml://cmsrc-lumidev.cms:46010
+     logLevel: ERROR
+     role: clock
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps: 
+       - config: templates/eventingsubscriber.tpl
+         bus: bcm1f
+         id: 170
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*bcm1fhost,30025] ] 
+       - config: templates/eventingpublisher.tpl
+         bus: bcm1f
+         id: 180
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*bcm1fhost,30025] ]
+       - config: templates/bcm1fsource.tpl
+         id: 190  
+         instance: 0
+         sim: "true"
+         bus: bcm1f
+         topics: "bcm1fhist"
+
+pltFM:
+   - resourcetype: XdaqExecutive  #pltprocessor
+     hostname: *plthost
+     port: 9210
+     endpoint: 9211
+     logURL: xml://cmsrc-lumidev.cms:46010
+     logLevel: ERROR
+     role: eventing
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps: 
+       - config: templates/eventingsubscriber.tpl
+         bus: plt
+         id: 170
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*plthost,30025] ]
+       - config: templates/eventingpublisher.tpl
+         bus: plt
+         id: 180
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*plthost,30025] ]
+       - config: templates/eventingpublisher.tpl
+         bus: brildata
+         id: 181
+         instance: 1
+         eventings: [ ["utcp://%s:%d",*centralhost,30025] ]
+       - config: templates/pltprocessor.tpl
+         id: 190
+         instance: 0
+         eventinginput: [ { bus: plt, topics: "plthist" } ]
+         eventingoutput: [ { topic: pltbxlumi, buses: "plt,brildata"} ]
+     
+   - resourcetype: XdaqExecutive #pltsource
+     hostname: *plthost
+     port: 9200
+     endpoint: 9201
+     logURL: xml://cmsrc-lumidev.cms:46010
+     logLevel: ERROR
+     role: clock
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps: 
+       - config: templates/eventingsubscriber.tpl
+         bus: plt
+         id: 170
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*plthost,30025] ] 
+       - config: templates/eventingpublisher.tpl
+         bus: plt
+         id: 180
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*plthost,30025] ]
+       - config: templates/pltsource.tpl
+         id: 190
+         instance: 0
+         sim: "true"
+         bus: plt
+         topics: "plthist"
+brilclockFM:
+   - resourcetype: XdaqExecutive #timesource
+     hostname: *centralhost
+     port: 4200
+     endpoint: 4210
+     logURL: xml://cmsrc-lumidev.cms:46010
+     logLevel: ERROR
+     role: clock
+     unixUser: brilpro
+     environmentString: XDAQ_ROOT=/opt/xdaq XDAQ_DOCUMENT_ROOT=/opt/xdaq/htdocs LD_LIBRARY_PATH=/opt/xdaq/lib XDAQ_SETUP_ROOT=/opt/xdaq/share XDAQ_ZONE=bril
+     apps:
+       - config: templates/ptutcp.tpl
+         id: 12
+         maxblocksize: 65536
+         committedpoolsize: 0x17580000
+       - config: templates/eventingpublisher.tpl
+         bus: bhm
+         id: 180
+         instance: 0
+         eventings: [ ["utcp://%s:%d",*bhmhost,30025] ]
+       - config: templates/eventingpublisher.tpl
+         bus: bcm1f
+         id: 181
+         instance: 1
+         eventings: [ ["utcp://%s:%d",*bcm1fhost,30025] ]
+       - config: templates/eventingpublisher.tpl
+         bus: plt
+         id: 182
+         instance: 2
+         eventings: [ ["utcp://%s:%d",*plthost,30025] ]
+       - config: templates/timesource.tpl
+         id: 190
+         instance: 0
+         sim: "true"
+         swNBTimers: [ {signalTopic: NB1, nbFrequency: 1, buses: "bhm,bcm1f,plt"} ]
+       - config: templates/xmemprobe.tpl

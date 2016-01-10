@@ -1,0 +1,91 @@
+// $Id$
+
+/*************************************************************************
+ * XDAQ Application Template                     						 *
+ * Copyright (C) 2000-2009, CERN.			               				 *
+ * All rights reserved.                                                  *
+ * Authors: L. Orsini, A. Forrest, A. Petrucci							 *
+ *                                                                       *
+ * For the licensing terms see LICENSE.		                         	 *
+ * For the list of contributors see CREDITS.   					         *
+ *************************************************************************/
+
+#include <sstream>
+#include "cgicc/CgiDefs.h"
+#include "cgicc/Cgicc.h"
+
+#include "bril/pltslinkprocessor/Application.h"
+
+#include "eventing/api/exception/Exception.h"
+
+#include "b2in/nub/Method.h"
+#include "toolbox/regex.h"
+XDAQ_INSTANTIATOR_IMPL (bril::pltslinkprocessor::Application)
+
+bril::pltslinkprocessor::Application::Application (xdaq::ApplicationStub* s) throw (xdaq::exception::Exception)
+	: xdaq::Application(s), eventing::api::Subscriber(this)
+{
+	xgi::bind(this, &bril::pltslinkprocessor::Application::Default, "Default");
+
+	b2in::nub::bind(this, &bril::pltslinkprocessor::Application::onMessage);
+	try
+	{
+		this->subscribe("dummyplist");
+		this->subscribe("PLTRawSlinkEvent");
+	}
+	catch (eventing::api::exception::Exception & e)
+	{
+		// we are not doing any error handling in these examples. We just log the error
+		LOG4CPLUS_ERROR(this->getApplicationLogger(), "Failed to subscribe");
+	}
+}
+
+bril::pltslinkprocessor::Application::~Application ()
+{
+}
+
+/*
+ * This is the default web page for this XDAQ application.
+ */
+void bril::pltslinkprocessor::Application::Default (xgi::Input * in, xgi::Output * out) throw (xgi::exception::Exception)
+{
+	*out << "<html>" << std::endl;
+	*out << "<head>" << std::endl;
+	*out << "<title>XDAQ LumiDAQ PLT_Slinkreceiver</title>" << std::endl;
+	*out << "</head>" << std::endl;
+	*out << "<body>" << std::endl;
+	*out << "Last count received : " << lastReceived_ << std::endl;
+	*out << "</body>" << std::endl;
+	*out << "</html>" << std::endl;
+}
+
+/*
+ * This is the place where we receive messages.
+ */
+void bril::pltslinkprocessor::Application::onMessage (toolbox::mem::Reference * ref, xdata::Properties & plist) throw (b2in::nub::exception::Exception)
+{
+  // The eventing can send 'control' messages, so we need to check we are receiving a user message.
+  std::string action = plist.getProperty("urn:b2in-eventing:action");
+  std::string topic = plist.getProperty("urn:b2in-eventing:topic");
+  if (action == "notify"){
+    std::cout<<"topic "<<topic<<std::endl;
+    std::vector<std::string> substrings;
+    //    if( toolbox::regx_match(topic,"^PLTRawLumiNibble",substrings) ){
+    if (topic == "PLTRawSlinkEvent"){
+      std::map<std::string, std::string> myproperties=plist.getProperties();
+      std::cout<< " Event " << myproperties["Event"] << " Time "<<myproperties["Time"]<<" BX "<<myproperties["BX"]<< " channel " << myproperties["channel"];
+
+      void* dataptr=ref->getDataLocation();
+      size_t datasize=ref->getDataSize();
+      int nitems=datasize/sizeof(float);
+
+      }
+
+  }
+    
+
+  if (ref != 0){
+    ref->release();
+  }
+}
+

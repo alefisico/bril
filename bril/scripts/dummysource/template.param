@@ -1,0 +1,9 @@
+%hostname%=`hostname -f`
+%contextport%=50000
+%endpoint%=50010
+%eventinghostname%=`hostname -f`
+%utcpport%=30025
+%myprocessorcontextport%=50002
+%myprocessorendpoint%=50020
+%localdaqroot%=
+#EOF need this fake lastline if using ipython notebook editor#

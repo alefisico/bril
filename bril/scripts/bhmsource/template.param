@@ -1,0 +1,9 @@
+%pt_maxblocksize%=65536
+%pt_committedpoolsize%=0x17580000
+%hostname%=`hostname -f`
+%contextport%=9100
+%endpoint%=9101
+%eventinghostname%=`hostname -f`
+%utcpport%=30026
+%localdaqroot%=
+#EOF need this fake lastline if using ipython notebook editor#

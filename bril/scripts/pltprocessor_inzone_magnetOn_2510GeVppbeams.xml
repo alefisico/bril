@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<xc:Context url="http://vmepc-s2d16-07-01.cms:9210">
+  
+    <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="vmepc-s2d16-07-01.cms" port="9211" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>
+      	
+    <xc:Application class="eventing::core::Subscriber" id="18" instance="0" network="utcp1" group="b2in" service="eventing-subscriber" bus="plt">
+      <properties xmlns="urn:xdaq-application:eventing::core::Subscriber" xsi:type="soapenc:Struct">
+	<eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[2]">
+	  <item xsi:type="xsd:string" soapenc:position="[0]">utcp://vmepc-s2d16-07-01.cms:8184</item>
+          <item xsi:type="xsd:string" soapenc:position="[1]">utcp://srv-s2d16-27-01.cms:8184</item>
+	</eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+
+    <xc:Application class="eventing::core::Publisher" id="19" instance="0" network="utcp1" group="b2in" service="eventing-publisher" bus="brildata">
+      <properties xmlns="urn:xdaq-application:eventing::core::Publisher" xsi:type="soapenc:Struct">
+	<eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[2]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://srv-s2d16-18-01.cms:8181</item>
+          <item xsi:type="xsd:string" soapenc:position="[1]">utcp://srv-s2d16-27-01.cms:8181</item>
+	</eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+	
+    <xc:Application class="bril::pltprocessor::Application" id="11" instance="0" network="local" service="pltprocessor" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::pltprocessor::Application" xsi:type="soapenc:Struct">
+	<eventinginput xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[2]">
+          <item xsi:type="soapenc:Struct" soapenc:position="[0]"> 
+             <properties xsi:type="soapenc:Struct">
+                <bus xsi:type="xsd:string">plt</bus>
+                <topics xsi:type="xsd:string">plthist</topics>
+             </properties>
+          </item> 
+	  <item xsi:type="soapenc:Struct" soapenc:position="[1]">
+             <properties xsi:type="soapenc:Struct">
+                <bus xsi:type="xsd:string">plt</bus>
+                <topics xsi:type="xsd:string">NActiveChannels</topics>
+             </properties>
+          </item>
+        </eventinginput>
+        <eventingoutput xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[4]">          
+          <item xsi:type="soapenc:Struct" soapenc:position="[0]"> 
+             <properties xsi:type="soapenc:Struct">
+                <topic xsi:type="xsd:string">pltagghist</topic>
+                <buses xsi:type="xsd:string">brildata</buses>
+             </properties>
+          </item>
+	  <item xsi:type="soapenc:Struct" soapenc:position="[1]">
+             <properties xsi:type="soapenc:Struct">
+                <topic xsi:type="xsd:string">pltlumi</topic>
+                <buses xsi:type="xsd:string">brildata</buses>
+             </properties>
+          </item>
+	  <item xsi:type="soapenc:Struct" soapenc:position="[2]">
+             <properties xsi:type="soapenc:Struct">
+                <topic xsi:type="xsd:string">pltaggzero</topic>
+                <buses xsi:type="xsd:string">brildata</buses>
+             </properties>
+          </item>
+	  <item xsi:type="soapenc:Struct" soapenc:position="[3]">
+             <properties xsi:type="soapenc:Struct">
+                <topic xsi:type="xsd:string">pltlumizero</topic>
+                <buses xsi:type="xsd:string">brildata</buses>
+             </properties>
+          </item>
+        </eventingoutput>
+	<calibtag xsi:type="xsd:string">plt_2510GeVpp_MagOn_13Nov2015</calibtag>
+	<calibzerotag xsi:type="xsd:string">pz_2510GeVpp_MagOn_13Nov2015</calibzerotag>
+	<sigmavis xsi:type="xsd:float">3.51E-28</sigmavis>
+	<accidentalspzero xsi:type="xsd:float">0.0476</accidentalspzero>
+        <accidentalspone xsi:type="xsd:float">0.0274</accidentalspone>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>/nfshome0/brilpro/plt/daq/bril/scripts/../../../x86_64_slc6/lib/libbrilpltprocessor.so</xc:Module>
+    
+    <xc:Application class="eventing::core::Subscriber" id="22" instance="1" network="utcp1" group="b2in" service="eventing-subscriber" bus="brildata">
+      <properties xmlns="urn:xdaq-application:eventing::core::Subscriber" xsi:type="soapenc:Struct">
+
+        <eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[2]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://srv-s2d16-18-01.cms:8181</item>
+          <item xsi:type="xsd:string" soapenc:position="[1]">utcp://srv-s2d16-27-01.cms:8181</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+
+    <xc:Application class="xmem::probe::Application" id="21" instance="0" network="local" >
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libxmemprobe.so</xc:Module>    
+
+</xc:Context>
+
+</xc:Partition>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ <xc:Context url="http://%hostname%:%contextport%">
+    <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="%hostname%" port="%endpoint%" network="utcp1" sndTimeout="0" rcvTimeout="0" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>
+	       
+    <xc:Application class="eventing::core::Publisher" id="101" instance="0" network="utcp1" group="b2in" service="eventing-publisher" bus="brildata">
+      <properties xmlns="urn:xdaq-application:eventing::core::Publisher" xsi:type="soapenc:Struct">
+	<eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Application class="eventing::core::Subscriber" id="103" instance="0" network="utcp1" group="b2in" service="eventing-subscriber" bus="brildata">
+      <properties xmlns="urn:xdaq-application:eventing::core::Subscriber" xsi:type="soapenc:Struct">
+        <eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+
+    <xc:Application class="bril::timesource::Application" id="102" instance="0" network="local" loglevel="ERROR">
+      <properties xmlns="urn:xdaq-application:bril::timesource::Application" xsi:type="soapenc:Struct">
+         <simSource xsi:type="xsd:boolean">true</simSource>
+         <swInitRun xsi:type="xsd:unsignedInt">655360</swInitRun>
+         <swLSPerRun xsi:type="xsd:unsignedInt">2</swLSPerRun>
+         <swNRuns xsi:type="xsd:unsignedInt">2</swNRuns>
+         <swRunPerFill xsi:type="xsd:unsignedInt">1</swRunPerFill>
+         <swNBTimers xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[2]">
+            <item xsi:type="soapenc:Struct"  soapenc:position="[0]"> 
+              <properties xsi:type="soapenc:Struct">
+                <signalTopic xsi:type="xsd:string">NB4</signalTopic>
+                <nbFrequency xsi:type="xsd:string">4</nbFrequency>
+              </properties>
+            </item>
+            <item xsi:type="soapenc:Struct"  soapenc:position="[1]"> 
+              <properties xsi:type="soapenc:Struct">
+                <signalTopic xsi:type="xsd:string">NB64</signalTopic>
+                <nbFrequency xsi:type="xsd:string">64</nbFrequency>
+            </properties>
+            </item> 
+         </swNBTimers>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbriltimesource.so</xc:Module>	 
+
+    <xc:Application class="bril::dummysource::Monitorable" id="121" instance="0" network="local" service="dum">
+      <properties xmlns="urn:xdaq-application:bril::dummysource::Monitorable" xsi:type="soapenc:Struct">
+          <simSource xsi:type="xsd:boolean">false</simSource>
+          <signalTopic xsi:type="xsd:string">NB64</signalTopic>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbrildummysource.so</xc:Module>
+
+
+    <xc:Application class="bril::dummysource::MonitoringCollector" id="125" instance="0" network="local" service="mon">
+      <properties xmlns="urn:xdaq-application:bril::dummysource::MonitoringCollector" xsi:type="soapenc:Struct">
+      </properties>
+    </xc:Application>
+    <xc:Module>%localdaqroot%/lib/libbrildummysource.so</xc:Module>
+
+</xc:Context>
+</xc:Partition>

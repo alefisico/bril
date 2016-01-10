@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  
+  <xc:Context url="http://srv-C2C04-07:9220">
+	
+    <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="srv-C2C04-07.cms" port="9221" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>    
+
+    <xc:Application class="eventing::core::Publisher" id="16" instance="0" network="utcp1" group="b2in" service="eventing-publisher" bus="eventingtest">
+      <properties xmlns="urn:xdaq-application:eventing::core::Publisher" xsi:type="soapenc:Struct">
+	<eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+	  <item xsi:type="xsd:string" soapenc:position="[0]">utcp://srv-C2C04-07.cms:30050</item>
+	</eventings>
+      </properties>
+    </xc:Application>    
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+    
+    <!-- for multiple instances of the same class type within the same configuration, please provide an unique instance number for each one -->
+    <xc:Application class="bril::pltslinksource::Application" id="201" instance="0" network="local" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::pltsource::Application" xsi:type="soapenc:Struct">
+      <bus xsi:type="xsd:string">eventingtest</bus>
+      <topics xsi:type="xsd:string">pltslinkhist</topics>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>/nfshome0/brilpro/plt/daq/bril/scripts/../../../x86_64_slc6/lib/libbrilpltslinksource.so</xc:Module>
+
+     <xc:Application class="xmem::probe::Application" id="21" instance="0" network="local" >
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libxmemprobe.so</xc:Module>
+
+
+  
+  </xc:Context>
+  
+</xc:Partition>

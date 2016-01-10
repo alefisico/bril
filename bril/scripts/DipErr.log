@@ -1,0 +1,156 @@
+23 Sep 2015 20:09:00.893 [139799939864640] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+23 Sep 2015 20:09:00.930 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.executive::Application.lid(0) <> - Log URL not set (was already console)
+23 Sep 2015 20:09:00.931 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.executive::Application.lid(0) <> - Changed Log level to INFO
+23 Sep 2015 20:09:00.933 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Origin:*
+23 Sep 2015 20:09:00.933 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Methods:POST, GET, OPTIONS
+23 Sep 2015 20:09:00.933 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Headers:x-requested-with
+23 Sep 2015 20:09:00.933 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/png:PT4300H
+23 Sep 2015 20:09:00.933 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/jpg:PT4300H
+23 Sep 2015 20:09:00.933 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/gif:PT4300H
+23 Sep 2015 20:09:00.933 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule application/x-shockwave-flash:PT120H
+23 Sep 2015 20:09:00.933 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule application/font-woff:PT8600H
+23 Sep 2015 20:09:00.933 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule text/css:PT4300H
+23 Sep 2015 20:09:00.933 [139799939864640] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - No security policies on this server
+23 Sep 2015 20:09:00.938 [139799939864640] ERROR cms.srv-s2d16-29-01.p:50100.executive::Application.lid(0) <> - Caught exception: xdaq::exception::ConfigurationError 'Cannot load module from ${XDAQ_ROOT}/lib/libeventingcore.so' raised at downloadModules(/usr/local/src/xdaq/baseline12/daq/executive/src/common/Application.cc:1307);
+	originated by xdaq::exception::Exception 'Cannot load module //opt/xdaq/lib/libeventingcore.so' raised at loadModule(/usr/local/src/xdaq/baseline12/daq/xdaq/src/common/ApplicationContextImpl.cc:1571);
+	originated by xdaq::exception::LoadFailed '//opt/xdaq/lib/libeventingcore.so: undefined symbol: _ZTIN2pt4utcp13B2INMessengerE' raised at load(/usr/local/src/xdaq/baseline12/daq/xdaq/src/common/SharedObjectRegistry.cc:181)
+23 Sep 2015 20:09:00.938 [139799939864640] ERROR cms.srv-s2d16-29-01.p:50100.executive::Application.lid(0) <> - Failed to configure executive
+23 Sep 2015 20:09:31.760 [139955383998528] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+23 Sep 2015 20:10:31.265 [140325880174656] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+23 Sep 2015 20:12:23.718 [140360272570432] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+23 Sep 2015 20:15:52.685 [140161945798720] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+08 Oct 2015 08:12:57.822 [140292508059712] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+08 Oct 2015 08:12:57.850 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.executive::Application.lid(0) <> - Log URL not set (was already console)
+08 Oct 2015 08:12:57.850 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.executive::Application.lid(0) <> - Changed Log level to INFO
+08 Oct 2015 08:12:57.853 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Origin:*
+08 Oct 2015 08:12:57.853 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Methods:POST, GET, OPTIONS
+08 Oct 2015 08:12:57.853 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Headers:x-requested-with
+08 Oct 2015 08:12:57.853 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/png:PT4300H
+08 Oct 2015 08:12:57.853 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/jpg:PT4300H
+08 Oct 2015 08:12:57.853 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/gif:PT4300H
+08 Oct 2015 08:12:57.853 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule application/x-shockwave-flash:PT120H
+08 Oct 2015 08:12:57.853 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule application/font-woff:PT8600H
+08 Oct 2015 08:12:57.853 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule text/css:PT4300H
+08 Oct 2015 08:12:57.853 [140292508059712] INFO  cms.vmepc-s2d16-07-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - No security policies on this server
+08 Oct 2015 08:20:41.576 [140262107547712] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+09 Oct 2015 10:11:07.983 [140432612313152] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+09 Oct 2015 17:00:07.130 [139903754803264] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+25 Oct 2015 10:27:33.553 [139803285063744] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+27 Oct 2015 21:24:06.038 [140057970903104] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+31 Oct 2015 09:59:05.152 [139719704594496] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+07 Nov 2015 23:15:08.013 [140197277599808] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+08 Nov 2015 14:08:43.200 [140100832393280] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+15 Nov 2015 13:57:44.761 [140642686134336] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+15 Nov 2015 23:14:33.613 [140015254284352] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+15 Nov 2015 23:21:36.291 [139935178340416] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+15 Nov 2015 23:25:01.913 [139854539028544] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+15 Nov 2015 23:28:45.370 [140060394272832] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+16 Nov 2015 00:44:06.263 [140302080759872] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+16 Nov 2015 00:52:57.815 [140203897817152] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+16 Nov 2015 05:26:20.020 [139784183441472] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+16 Nov 2015 05:26:20.081 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.executive::Application.lid(0) <> - Log URL not set (was already console)
+16 Nov 2015 05:26:20.081 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.executive::Application.lid(0) <> - Changed Log level to INFO
+16 Nov 2015 05:26:20.084 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Origin:*
+16 Nov 2015 05:26:20.084 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Methods:POST, GET, OPTIONS
+16 Nov 2015 05:26:20.084 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Headers:x-requested-with
+16 Nov 2015 05:26:20.084 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/png:PT4300H
+16 Nov 2015 05:26:20.084 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/jpg:PT4300H
+16 Nov 2015 05:26:20.084 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/gif:PT4300H
+16 Nov 2015 05:26:20.084 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule application/x-shockwave-flash:PT120H
+16 Nov 2015 05:26:20.084 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule application/font-woff:PT8600H
+16 Nov 2015 05:26:20.084 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule text/css:PT4300H
+16 Nov 2015 05:26:20.084 [139784183441472] INFO  cms.srv-s2d16-29-01.p:50100.pt::http::PeerTransportHTTP.lid(1) <> - No security policies on this server
+16 Nov 2015 05:26:20.088 [139784183441472] ERROR cms.srv-s2d16-29-01.p:50100.executive::Application.lid(0) <> - Caught exception: xdaq::exception::ConfigurationError 'Cannot load module from ${XDAQ_ROOT}/lib/libeventingcore.so' raised at downloadModules(/usr/local/src/xdaq/baseline12/daq/executive/src/common/Application.cc:1307);
+	originated by xdaq::exception::Exception 'Cannot load module //opt/xdaq/lib/libeventingcore.so' raised at loadModule(/usr/local/src/xdaq/baseline12/daq/xdaq/src/common/ApplicationContextImpl.cc:1571);
+	originated by xdaq::exception::LoadFailed '//opt/xdaq/lib/libeventingcore.so: undefined symbol: _ZTIN2pt4utcp13B2INMessengerE' raised at load(/usr/local/src/xdaq/baseline12/daq/xdaq/src/common/SharedObjectRegistry.cc:181)
+16 Nov 2015 05:26:20.088 [139784183441472] ERROR cms.srv-s2d16-29-01.p:50100.executive::Application.lid(0) <> - Failed to configure executive
+16 Nov 2015 05:32:01.567 [140268861950016] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+16 Nov 2015 05:32:51.431 [140325047011392] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+16 Nov 2015 05:34:28.543 [139887919798336] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+19 Nov 2015 15:12:37.194 [139828627982400] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+19 Nov 2015 15:39:19.292 [140144247994432] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+20 Nov 2015 18:59:36.067 [140374161979456] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+20 Nov 2015 21:14:40.214 [140482649204800] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+tail: cannot open `../scripts/DipOut.log' for reading: No such file or directory
+22 Nov 2015 12:15:03.992 [140498096990272] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.
+22 Nov 2015 12:18:27.746 [140437196363840] INFO  root <> - Logging to file (append) /brilpro/plt/daq/bril/scripts/eventing.log
+log4cxx: No appender could be found for logger (dip.system.factory).
+log4cxx: Please initialize the log4cxx system properly.

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<xc:Context url="http://%hostname%:%contextport%">    
+   <xc:Application class="bril::dummysource::SkeletonApplication" id="11" instance="0" network="local">
+     <properties xmlns="urn:xdaq-application:bril::dummysource::SkeletonApplication" xsi:type="soapenc:Struct">
+       <simSource xsi:type="xsd:boolean">true</simSource>
+     </properties>
+   </xc:Application>
+ <xc:Module>%localdaqroot%/lib/libbrildummysource.so</xc:Module>	   
+</xc:Context>
+</xc:Partition>

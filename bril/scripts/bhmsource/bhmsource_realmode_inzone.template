@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ <xc:Context url="http://%hostname%:%contextport%">
+    <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="%hostname%" port="%endpoint%" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>
+
+    <xc:Application class="eventing::core::Subscriber" id="103" instance="0" network="utcp1" group="b2in" service="eventing-subscriber" bus="bhm" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:eventing::core::Subscriber" xsi:type="soapenc:Struct">
+        <eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+
+   <xc:Application class="eventing::core::Publisher" id="101" instance="0" network="utcp1" group="b2in" service="eventing-publisher" bus="bhm" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:eventing::core::Publisher" xsi:type="soapenc:Struct">
+	<eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+
+   <xc:Application class="bril::bhmsource::Application" id="121" instance="0" network="local" service="bhmsource" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::bhmsource::Application" xsi:type="soapenc:Struct">
+          <simSource xsi:type="xsd:boolean">false</simSource>
+          <bhmSource xsi:type="xsd:boolean">false</bhmSource>
+	  <connectionuri xsi:type="xsd:string">chtcp-2.0://hcalutca01.cms:10203?target=192.168.22.4:50001</connectionuri>
+          <bus xsi:type="xsd:string">bhm</bus>  
+          <topics xsi:type="xsd:string">bhmocchist,bhmamphist</topics>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbrilbhmsource.so</xc:Module>  
+
+   <xc:Application class="xmem::probe::Application" id="21" instance="0" network="local" >
+  </xc:Application>
+  <xc:Module>${XDAQ_ROOT}/lib/libxmemprobe.so</xc:Module>    
+
+</xc:Context>
+</xc:Partition>

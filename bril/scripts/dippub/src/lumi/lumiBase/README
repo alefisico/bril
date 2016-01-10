@@ -1,0 +1,32 @@
+lumiBase is a collection of common pieces of code:
+
+1. LumiApplication -- base class for lumi applications which is responsible for
+   state transitions through SOAP requests. Two states are defined: stopped,
+   running.
+
+2. LumiConfiguration -- enables usage of configuration files containing
+   "key = value" pairs.
+
+3. LumiQueue -- thread-safe multiple writers => single reader FIFO queue of
+   elements of fixed size.
+
+4. common.h -- common constants, structures and functions.
+
+Due to a limitation of the xDAQ framework (namely, it is not possible to use the
+lumiBase code directly without first creating a separate .so library), source
+files are soft-linked into real applications' directories.
+
+
+Valid syntax of configuration files parseable with the LumiConfiguration class:
+  - empty lines and lines starting with "#" or ";" are skipped;
+  - all other lines must be of "key = value" form;
+  - any number of spaces around "key" and "value" are allowed;
+  - "key" must not contain the equality symbol ("=");
+  - single/double quotes (' and ") are not specially treated;
+  - if "key" is repeated over several lines, respective values are collected and
+    considered as an array;
+  - values of booleans must be equal to any of yes/no, true/false or 0/1 (case
+    insensitive);
+  - decimal, octal (must start with "0") and hex (must start with "0x") integers
+    are equally accepted;
+  - too long lines (>= 4kb) are not allowed.

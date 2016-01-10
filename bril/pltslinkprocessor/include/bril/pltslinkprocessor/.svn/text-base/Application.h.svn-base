@@ -1,0 +1,56 @@
+// $Id$
+
+/*************************************************************************
+ * XDAQ Application Template                     						 *
+ * Copyright (C) 2000-2009, CERN.			               				 *
+ * All rights reserved.                                                  *
+ * Authors: L. Orsini, A. Forrest, A. Petrucci							 *
+ *                                                                       *
+ * For the licensing terms see LICENSE.		                         	 *
+ * For the list of contributors see CREDITS.   					         *
+ *************************************************************************/
+
+#ifndef _bril_pltslinkprocessor_Application_h_
+#define _bril_pltslinkprocessor_Application_h_
+
+#include <string>
+
+#include "xdaq/Application.h"
+
+#include "xgi/Method.h"
+#include "xgi/Output.h"
+#include "xgi/exception/Exception.h"
+
+#include "eventing/api/Subscriber.h"
+
+#include "toolbox/mem/Reference.h"
+#include "b2in/nub/exception/Exception.h"
+
+#include "bril/pltslinkprocessor/lumiDataFormat.h"
+
+namespace bril
+{
+  namespace pltslinkprocessor
+  {
+    class Application : public xdaq::Application, public eventing::api::Subscriber
+      {
+      public:
+	
+	XDAQ_INSTANTIATOR();
+	
+	Application (xdaq::ApplicationStub* s) throw (xdaq::exception::Exception);
+	~Application ();
+	
+	void Default (xgi::Input * in, xgi::Output * out) throw (xgi::exception::Exception);
+
+	void onMessage (toolbox::mem::Reference * ref, xdata::Properties & plist) throw (b2in::nub::exception::Exception);
+
+  protected:
+    
+    // We store the value of 'messageNumber'
+    std::string lastReceived_;
+      };
+  }
+}
+
+#endif

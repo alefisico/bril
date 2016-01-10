@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ <xc:Context url="http://%hostname%:%contextport%">
+    <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="%hostname%" port="%endpoint%" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>
+   
+    <xc:Application class="eventing::core::Subscriber" id="103" instance="0" network="utcp1" group="b2in" service="eventing-subscriber" bus="bcm1f" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:eventing::core::Subscriber" xsi:type="soapenc:Struct">
+        <eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+	       
+    <xc:Application class="eventing::core::Publisher" id="101" instance="0" network="utcp1" group="b2in" service="eventing-publisher" bus="bcm1f" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:eventing::core::Publisher" xsi:type="soapenc:Struct">
+	<eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+    
+
+    <xc:Application class="bril::bcm1fsource::Application" id="150" instance="0" network="local" service="bcm1fsource" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::bcm1fsource::Application" xsi:type="soapenc:Struct">
+	  <simSource xsi:type="xsd:boolean">false</simSource>
+	  <rhuIpAddress xsi:type="xsd:string">10.176.132.78</rhuIpAddress>
+	  <rhuPort xsi:type="xsd:unsignedInt">5001</rhuPort>
+          <bus xsi:type="xsd:string">bcm1f</bus>
+          <topics xsi:type="xsd:string">bcm1fhist</topics>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbrilbcm1fsource.so</xc:Module>
+
+    <xc:Application class="bril::bcm1fsource::Application" id="151" instance="1" network="local" service="bcm1fsource" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::bcm1fsource::Application" xsi:type="soapenc:Struct">
+	  <simSource xsi:type="xsd:boolean">false</simSource>
+	  <rhuIpAddress xsi:type="xsd:string">10.176.132.79</rhuIpAddress>
+	  <rhuPort xsi:type="xsd:unsignedInt">5001</rhuPort>
+          <bus xsi:type="xsd:string">bcm1f</bus>
+          <topics xsi:type="xsd:string">bcm1fhist</topics>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbrilbcm1fsource.so</xc:Module>
+
+    <xc:Application class="bril::bcm1fsource::Application" id="152" instance="2" network="local" service="bcm1fsource" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::bcm1fsource::Application" xsi:type="soapenc:Struct">
+	  <simSource xsi:type="xsd:boolean">false</simSource>
+	  <rhuIpAddress xsi:type="xsd:string">10.176.132.80</rhuIpAddress>
+	  <rhuPort xsi:type="xsd:unsignedInt">5001</rhuPort>
+          <bus xsi:type="xsd:string">bcm1f</bus>
+          <topics xsi:type="xsd:string">bcm1fhist</topics>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbrilbcm1fsource.so</xc:Module>
+
+    <xc:Application class="bril::bcm1fsource::Application" id="153" instance="3" network="local" service="bcm1fsource" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::bcm1fsource::Application" xsi:type="soapenc:Struct">
+	  <simSource xsi:type="xsd:boolean">false</simSource>
+	  <rhuIpAddress xsi:type="xsd:string">10.176.132.81</rhuIpAddress>
+	  <rhuPort xsi:type="xsd:unsignedInt">5001</rhuPort>
+          <bus xsi:type="xsd:string">bcm1f</bus>
+          <topics xsi:type="xsd:string">bcm1fhist</topics>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbrilbcm1fsource.so</xc:Module>
+
+    <!-- <xc:Application class="bril::bcm1fsource::Application" id="154" instance="4" network="local" service="bcm1fsource" logpolicy="inherit"> -->
+    <!--   <properties xmlns="urn:xdaq-application:bril::bcm1fsource::Application" xsi:type="soapenc:Struct"> -->
+    <!-- 	  <simSource xsi:type="xsd:boolean">false</simSource> -->
+    <!-- 	  <rhuIpAddress xsi:type="xsd:string">10.176.132.82</rhuIpAddress> -->
+    <!-- 	  <rhuPort xsi:type="xsd:unsignedInt">5001</rhuPort> -->
+    <!--       <signalTopic xsi:type="xsd:string">NB1</signalTopic> -->
+    <!--       <bus xsi:type="xsd:string">bcm1f</bus> -->
+    <!--       <topics xsi:type="xsd:string">bcm1fhist</topics> -->
+    <!--   </properties> -->
+    <!-- </xc:Application> -->
+    <!-- <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module> -->
+    <!-- <xc:Module>%localdaqroot%/lib/libbrilbcm1fsource.so</xc:Module> -->
+
+    <xc:Application class="bril::bcm1fsource::Application" id="155" instance="4" network="local" service="bcm1fsource" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::bcm1fsource::Application" xsi:type="soapenc:Struct">
+	  <simSource xsi:type="xsd:boolean">false</simSource>
+	  <rhuIpAddress xsi:type="xsd:string">10.176.132.83</rhuIpAddress>
+	  <rhuPort xsi:type="xsd:unsignedInt">5001</rhuPort>
+          <bus xsi:type="xsd:string">bcm1f</bus>
+          <topics xsi:type="xsd:string">bcm1fhist</topics>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbrilbcm1fsource.so</xc:Module>
+
+    <xc:Application class="bril::bcm1fsource::Application" id="156" instance="5" network="local" service="bcm1fsource" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::bcm1fsource::Application" xsi:type="soapenc:Struct">
+	  <simSource xsi:type="xsd:boolean">false</simSource>
+	  <rhuIpAddress xsi:type="xsd:string">10.176.132.84</rhuIpAddress>
+	  <rhuPort xsi:type="xsd:unsignedInt">5001</rhuPort>
+          <bus xsi:type="xsd:string">bcm1f</bus>
+          <topics xsi:type="xsd:string">bcm1fhist</topics>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbrilbcm1fsource.so</xc:Module> 
+
+  <xc:Application class="xmem::probe::Application" id="21" instance="0" network="local" >
+  </xc:Application>
+  <xc:Module>${XDAQ_ROOT}/lib/libxmemprobe.so</xc:Module>    
+
+<xc:Application class="bril::lumistore::Application" id="111" instance="0" network="local" service="lumistore" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::lumistore::Application" xsi:type="soapenc:Struct">
+    <datasources xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="soapenc:Struct" soapenc:position="[0]">
+        <properties xsi:type="soapenv:Struct">
+              <topics xsi:type="xsd:string">bcm1fhist</topics>
+              <bus xsi:type="xsd:string">bcm1f</bus>
+        </properties>
+      </item>          
+    </datasources>
+        <maxstalesec xsi:type="xsd:unsignedInt">30</maxstalesec>
+        <checkagesec xsi:type="xsd:unsignedInt">10</checkagesec>
+        <nrowperwbuf xsi:type="xsd:unsignedInt">2</nrowperwbuf>
+        <maxsizeMB xsi:type="xsd:unsignedInt">500</maxsizeMB>
+        <fileformat xsi:type="xsd:string">hd5</fileformat>
+        <filepath xsi:type="xsd:string">/Data/bcm1f/RhuCommissioningSplashes/bcm1fsource</filepath>
+      </properties>
+    </xc:Application>
+    <xc:Module>%localdaqroot%/lib/libbrillumistore.so</xc:Module>
+
+</xc:Context>
+</xc:Partition>

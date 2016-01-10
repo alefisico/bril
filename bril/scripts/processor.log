@@ -1,0 +1,44 @@
+28 Jun 2015 19:20:39.632 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - xdaq version: 04.07.06, compiled on Sep 29 2014 at 16:33:12, 64bit
+28 Jun 2015 19:20:39.634 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - Loaded profile: /opt/xdaq/etc/default.profile
+28 Jun 2015 19:20:39.634 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - b2innub version: 02.04.00, compiled on Oct 28 2014 at 13:58:48
+28 Jun 2015 19:20:39.635 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - executive version: 04.00.06, compiled on Jul  9 2014 at 10:56:11
+28 Jun 2015 19:20:39.636 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - pthttp version: 04.02.07, compiled on Apr 28 2015 at 10:58:41
+28 Jun 2015 19:20:39.636 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - ptfifo version: 04.02.01, compiled on Jun 11 2014 at 12:08:44
+28 Jun 2015 19:20:39.637 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - xrelay version: 04.00.01, compiled on Jun 11 2014 at 12:09:27
+28 Jun 2015 19:20:39.637 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - hyperdaq version: 05.01.02, compiled on May  5 2015 at 15:51:07
+28 Jun 2015 19:20:39.637 [140304573139008] DEBUG bril.cms.srv-C2C04-07.p:9230 <> - Create application descriptor for class: executive::Application id: 0
+28 Jun 2015 19:20:39.656 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.executive::Application.lid(0) <> - Log URL not set (was already console)
+28 Jun 2015 19:20:39.656 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.executive::Application.lid(0) <> - Changed Log level to INFO
+28 Jun 2015 19:20:39.671 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Origin:*
+28 Jun 2015 19:20:39.671 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Methods:POST, GET, OPTIONS
+28 Jun 2015 19:20:39.671 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Headers:x-requested-with
+28 Jun 2015 19:20:39.671 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/png:PT4300H
+28 Jun 2015 19:20:39.671 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/jpg:PT4300H
+28 Jun 2015 19:20:39.671 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/gif:PT4300H
+28 Jun 2015 19:20:39.671 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule application/x-shockwave-flash:PT120H
+28 Jun 2015 19:20:39.671 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule application/font-woff:PT8600H
+28 Jun 2015 19:20:39.671 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule text/css:PT4300H
+28 Jun 2015 19:20:39.671 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.pt::http::PeerTransportHTTP.lid(1) <> - No security policies on this server
+28 Jun 2015 19:20:39.681 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - tcpla version: 01.08.00, compiled on Mar 23 2015 at 10:45:54
+28 Jun 2015 19:20:39.682 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - ptutcp version: 04.02.03, compiled on Jun  8 2015 at 16:53:04
+28 Jun 2015 19:20:39.683 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - b2inutils version: 04.04.02, compiled on Jun 11 2014 at 12:13:43
+28 Jun 2015 19:20:39.683 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - eventingcore version: 05.00.00, compiled on Jul  9 2014 at 11:03:06
+28 Jun 2015 19:20:39.684 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - b2inutils version: 04.04.02, compiled on Jun 11 2014 at 12:13:43
+28 Jun 2015 19:20:39.684 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - eventingcore version: 05.00.00, compiled on Jul  9 2014 at 11:03:06
+28 Jun 2015 19:20:39.684 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - eventingapi version: 03.00.00, compiled on Jul  9 2014 at 11:03:54
+28 Jun 2015 19:20:39.685 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - brilpltslinkprocessor version: 01.00.01, compiled on Jun 27 2015 at 01:50:03
+28 Jun 2015 19:20:39.686 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - xmemprobe version: 01.04.00, compiled on Dec 17 2014 at 17:45:09
+28 Jun 2015 19:20:39.688 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.bril::pltslinkprocessor::Application.instance(0) <> - subscribing plt:pltslinkhist
+28 Jun 2015 19:20:39.689 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.eventing::core::Publisher.instance(0) <> - Received endpoint available event for network local
+28 Jun 2015 19:20:39.719 [140304573139008] FATAL bril.cms.srv-C2C04-07.p:9230.eventing::core::Subscriber.instance(0) <> - Failed to create messenger on eventing at , Failed to create messenger to url ''
+28 Jun 2015 19:20:39.719 [140304522913536] ERROR bril.cms.srv-C2C04-07.p:9230.executive::Application.lid(0) <toolbox/exception/Processor> - Unhandled exception occured
+Caught exception: b2in::utils::exception::Exception 'Failed to create messenger to url ''' raised at createMessenger(/usr/local/src/xdaq/baseline12/daq/b2in/utils/src/common/MessengerCache.cc:237);
+	originated by pt::exception::InvalidAddress 'Could not parse URL ''
+' raised at createAddress(/usr/local/src/xdaq/baseline12/daq/pt/src/common/PeerTransportAgentImpl.cc:248)
+28 Jun 2015 19:20:39.719 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.eventing::core::Publisher.instance(0) <> - Received endpoint available event for network utcp1
+28 Jun 2015 19:20:39.719 [140304522913536] ERROR bril.cms.srv-C2C04-07.p:9230.executive::Application.lid(0) <toolbox/exception/Processor> - Unhandled exception occured
+Caught exception: eventing::core::exception::Exception 'Failed to create a messenger' raised at actionPerformed(/usr/local/src/xdaq/baseline12/daq/eventing/core/src/common/Publisher.cc:151);
+	originated by pt::exception::InvalidAddress 'Could not parse URL ''
+' raised at createAddress(/usr/local/src/xdaq/baseline12/daq/pt/src/common/PeerTransportAgentImpl.cc:248)
+28 Jun 2015 19:20:39.720 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230.eventing::core::Publisher.instance(0) <> - create messenger for network utcp1 url: utcp://srv-C2C04-07.cms:30050 messenger size is 0
+28 Jun 2015 19:20:39.721 [140304573139008] INFO  bril.cms.srv-C2C04-07.p:9230 <> - Ready.

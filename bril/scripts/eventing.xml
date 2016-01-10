@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<xc:Context url="http://srv-C2C04-07.cms:30035">	
+  <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="srv-C2C04-07.cms" port="30050" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>	
+	<xc:Application class="pt::utcp::Application" id="20" instance="0" network="local" heartbeat="false" logpolicy="inherit">
+  <properties xmlns="urn:xdaq-application:pt::utcp::Application" xsi:type="soapenc:Struct">
+   <maxBlockSize xsi:type="xsd:unsignedInt">65536</maxBlockSize>
+   <committedPoolSize xsi:type="xsd:double">0x17580000</committedPoolSize>
+   <ioQueueSize xsi:type="xsd:unsignedInt">2048</ioQueueSize>
+   <eventQueueSize xsi:type="xsd:unsignedInt">2048</eventQueueSize>
+   <maxReceiveBuffers xsi:type="xsd:unsignedInt">4</maxReceiveBuffers>
+   <autoConnect xsi:type="xsd:boolean">false</autoConnect>
+  </properties>
+ </xc:Application>
+  <xc:Module>${XDAQ_ROOT}/lib/libtcpla.so</xc:Module>
+  <xc:Module>${XDAQ_ROOT}/lib/libptutcp.so</xc:Module>
+    
+  <xc:Application heartbeat="true" class="b2in::eventing::Application" id="43" network="utcp1" group="eventingtest" service="b2in-eventing" publish="true">
+      <properties xmlns="urn:xdaq-application:b2in::eventing::Application" xsi:type="soapenc:Struct">
+      </properties>
+  </xc:Application>
+  <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+  <xc:Module>${XDAQ_ROOT}/lib/libb2ineventing.so</xc:Module>
+
+  <xc:Application class="xmem::probe::Application" id="21" instance="0" network="local" >
+  </xc:Application>
+  <xc:Module>${XDAQ_ROOT}/lib/libxmemprobe.so</xc:Module>    
+
+</xc:Context>  
+</xc:Partition>

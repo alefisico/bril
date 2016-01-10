@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/reps/cmsos/!svn/ver/24007/branches/bril/daq/bril/pltslinksource/src/common
+END
+PLTPlane.cc
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/reps/cmsos/!svn/ver/24007/branches/bril/daq/bril/pltslinksource/src/common/PLTPlane.cc
+END
+PLTCluster.cc
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/reps/cmsos/!svn/ver/24007/branches/bril/daq/bril/pltslinksource/src/common/PLTCluster.cc
+END
+Application.cc
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/reps/cmsos/!svn/ver/24007/branches/bril/daq/bril/pltslinksource/src/common/Application.cc
+END
+PLTHit.cc
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/reps/cmsos/!svn/ver/24007/branches/bril/daq/bril/pltslinksource/src/common/PLTHit.cc
+END
+version.cc
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/reps/cmsos/!svn/ver/24007/branches/bril/daq/bril/pltslinksource/src/common/version.cc
+END

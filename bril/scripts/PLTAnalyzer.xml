@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ <xc:Context url="http://srv-s2d16-29-01.cms:50100">
+    <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="srv-s2d16-29-01.cms" port="50112" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>
+    
+    <xc:Application class="eventing::core::Subscriber" id="103" instance="0" network="utcp1" group="b2in" service="eventing-subscriber" bus="brildata" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:eventing::core::Subscriber" xsi:type="soapenc:Struct">
+        <eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://srv-s2d16-32-01.cms:8181</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+    
+    
+    
+    <xc:Application class="bril::dip::PLTAnalyzer" id="102" instance="0" network="local" service="dipcommon" group="brilcentral" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::dip::PLTAnalyzer" xsi:type="soapenc:Struct">
+        <bus xsi:type="xsd:string">brildata</bus>        
+        <dipSubs xsi:type="xsd:string"></dipSubs>
+        <dipPubs xsi:type="xsd:string"></dipPubs>
+        <dipRoot xsi:type="xsd:string">dip/CMSTEST/</dipRoot>
+        <dipServiceName xsi:type="xsd:string">briltestdipbridgeplt</dipServiceName>	
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>/brilpro/plt/daq/bril/dipprocessor/lib/linux/x86_64_slc6/libbrildipprocessor.so</xc:Module>
+    
+    
+   
+
+
+ </xc:Context>
+</xc:Partition>

@@ -1,0 +1,155 @@
+28 Jun 2015 18:12:08.799 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - xdaq version: 04.07.06, compiled on Sep 29 2014 at 16:33:12, 64bit
+28 Jun 2015 18:12:08.801 [140247690053696] WARN  bril.cms.srv-C2C04-07.p:9220 <> - Failed to load profile '/etc/default.profile', trying next
+28 Jun 2015 18:12:08.801 [140247690053696] WARN  bril.cms.srv-C2C04-07.p:9220 <> - Failed to load profile '${HOME}/etc/default.profile', trying next
+28 Jun 2015 18:12:08.802 [140247690053696] WARN  bril.cms.srv-C2C04-07.p:9220 <> - Failed to load profile '${XDAQ_ROOT}/share/${XDAQ_ZONE}/profile/default.srv-c2c04-07.cms.profile', trying next
+28 Jun 2015 18:12:08.803 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - Loaded profile: ${XDAQ_ROOT}/share/${XDAQ_ZONE}/profile/default.profile
+28 Jun 2015 18:12:08.804 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - b2innub version: 02.04.00, compiled on Oct 28 2014 at 13:58:48
+28 Jun 2015 18:12:08.805 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - executive version: 04.00.06, compiled on Jul  9 2014 at 10:56:11
+28 Jun 2015 18:12:08.806 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - tcpla version: 01.08.00, compiled on Mar 23 2015 at 10:45:54
+28 Jun 2015 18:12:08.808 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - ptutcp version: 04.02.03, compiled on Jun  8 2015 at 16:53:04
+28 Jun 2015 18:12:08.809 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - pthttp version: 04.02.07, compiled on Apr 28 2015 at 10:58:41
+28 Jun 2015 18:12:08.822 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - ptfifo version: 04.02.01, compiled on Jun 11 2014 at 12:08:44
+28 Jun 2015 18:12:08.823 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - hyperdaq version: 05.01.02, compiled on May  5 2015 at 15:51:07
+28 Jun 2015 18:12:08.823 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - xmemprobe version: 01.04.00, compiled on Dec 17 2014 at 17:45:09
+28 Jun 2015 18:12:08.825 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - b2inutils version: 04.04.02, compiled on Jun 11 2014 at 12:13:43
+28 Jun 2015 18:12:08.825 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - wsaddressing version: 01.11.00, compiled on Jun 11 2014 at 12:16:44
+28 Jun 2015 18:12:08.825 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - xmasutils version: 01.17.02, compiled on Jun 11 2014 at 12:20:29
+28 Jun 2015 18:12:08.826 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - xmasheartbeatprobe version: 02.00.00, compiled on Jun 11 2014 at 12:19:36
+28 Jun 2015 18:12:08.826 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - b2inutils version: 04.04.02, compiled on Jun 11 2014 at 12:13:43
+28 Jun 2015 18:12:08.826 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - wsaddressing version: 01.11.00, compiled on Jun 11 2014 at 12:16:44
+28 Jun 2015 18:12:08.827 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - xmasutils version: 01.17.02, compiled on Jun 11 2014 at 12:20:29
+28 Jun 2015 18:12:08.828 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - xmasprobe version: 02.00.03, compiled on Jan 26 2015 at 14:51:25
+28 Jun 2015 18:12:08.828 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - b2inutils version: 04.04.02, compiled on Jun 11 2014 at 12:13:43
+28 Jun 2015 18:12:08.829 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - sentinelutils version: 02.00.02, compiled on Jun 11 2014 at 12:15:10
+28 Jun 2015 18:12:08.830 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - sentinelprobe version: 02.00.00, compiled on Jun 11 2014 at 12:15:23
+28 Jun 2015 18:12:08.830 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - b2inutils version: 04.04.02, compiled on Jun 11 2014 at 12:13:43
+28 Jun 2015 18:12:08.830 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - wsaddressing version: 01.11.00, compiled on Jun 11 2014 at 12:16:44
+28 Jun 2015 18:12:08.841 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - xmasutils version: 01.17.02, compiled on Jun 11 2014 at 12:20:29
+28 Jun 2015 18:12:08.843 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - tracerprobe version: 02.00.00, compiled on Jun 11 2014 at 12:26:46
+28 Jun 2015 18:12:08.843 [140247690053696] DEBUG bril.cms.srv-C2C04-07.p:9220 <> - Create application descriptor for class: executive::Application id: 0
+28 Jun 2015 18:12:08.966 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.executive::Application.lid(0) <> - Log URL not set (was already console)
+28 Jun 2015 18:12:08.966 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.executive::Application.lid(0) <> - Changed Log level to INFO
+28 Jun 2015 18:12:09.043 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Loaded pulser events from 'http://pc-c2e11-22-01.cms:8866/directory/sensor/executive.pulser'
+28 Jun 2015 18:12:09.046 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Loaded pulser events from 'http://pc-c2e11-22-01.cms:8866/directory/sensor/heartbeatprobe.pulser'
+28 Jun 2015 18:12:09.049 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Loaded pulser events from 'http://pc-c2e11-22-01.cms:8866/directory/sensor/hyperdaq.pulser'
+28 Jun 2015 18:12:09.051 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Loaded pulser events from 'http://pc-c2e11-22-01.cms:8866/directory/sensor/xmasprobe.pulser'
+28 Jun 2015 18:12:09.054 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Loaded pulser events from 'http://pc-c2e11-22-01.cms:8866/directory/sensor/sentinelprobe.pulser'
+28 Jun 2015 18:12:09.056 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.tracer::probe::Application.lid(36) <> - Load JEL from 'http://pc-c2e11-22-01.cms:8866/directory/etc/tracerfilter.xml'
+28 Jun 2015 18:12:09.057 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.tracer::probe::Application.lid(36) <> - Loaded JEL from 'http://pc-c2e11-22-01.cms:8866/directory/etc/tracerfilter.xml'
+28 Jun 2015 18:12:09.073 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Loaded pulser events from 'http://pc-c2e11-22-01.cms:8866/directory/sensor/tracerprobe.pulser'
+28 Jun 2015 18:12:09.251 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::heartbeat::probe::Application.lid(4) <> - Received endpoint available event for network localnet on application network localnet
+28 Jun 2015 18:12:09.252 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Received endpoint available event for network localnet on application network localnet
+28 Jun 2015 18:12:09.252 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.sentinel::probe::Application.lid(6) <> - Received endpoint available event for network localnet on application network localnet
+28 Jun 2015 18:12:09.252 [140247690053696] WARN  bril.cms.srv-C2C04-07.p:9220.sentinel::probe::Application.lid(6) <> - Messenger cache created on network localnet
+28 Jun 2015 18:12:09.253 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Origin:*
+28 Jun 2015 18:12:09.253 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Methods:POST, GET, OPTIONS
+28 Jun 2015 18:12:09.253 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.pt::http::PeerTransportHTTP.lid(1) <> - Adding header Access-Control-Allow-Headers:x-requested-with
+28 Jun 2015 18:12:09.253 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/png:PT4300H
+28 Jun 2015 18:12:09.253 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/jpg:PT4300H
+28 Jun 2015 18:12:09.253 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule image/gif:PT4300H
+28 Jun 2015 18:12:09.253 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule application/x-shockwave-flash:PT120H
+28 Jun 2015 18:12:09.253 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.pt::http::PeerTransportHTTP.lid(1) <> - Adding expire rule application/font-woff:PT8600H
+28 Jun 2015 18:12:09.253 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.pt::http::PeerTransportHTTP.lid(1) <> - No security policies on this server
+28 Jun 2015 18:12:09.262 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - b2inutils version: 04.04.02, compiled on Jun 11 2014 at 12:13:43
+28 Jun 2015 18:12:09.263 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - eventingcore version: 05.00.00, compiled on Jul  9 2014 at 11:03:06
+28 Jun 2015 18:12:09.264 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - eventingapi version: 03.00.00, compiled on Jul  9 2014 at 11:03:54
+28 Jun 2015 18:12:09.266 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - brilpltslinksource version: 01.00.01, compiled on Jun 25 2015 at 21:55:04
+28 Jun 2015 18:12:09.266 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - xmemprobe version: 01.04.00, compiled on Dec 17 2014 at 17:45:09
+28 Jun 2015 18:12:09.269 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Loaded pulser events from 'http://pc-c2e11-22-01.cms:8866/directory/sensor/eventing-publisher.pulser'
+28 Jun 2015 18:12:09.283 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Loaded pulser events from 'http://pc-c2e11-22-01.cms:8866/directory/sensor/eventing-subscriber.pulser'
+here
+here2
+Creating Memory Pool
+Doing zmq client
+28 Jun 2015 18:12:09.288 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::heartbeat::probe::Application.lid(4) <> - Received endpoint available event for network local on application network localnet
+28 Jun 2015 18:12:09.289 [140247690053696] WARN  bril.cms.srv-C2C04-07.p:9220.xmas::heartbeat::probe::Application.lid(4) <> - No match found for network name, not creating messenger cache : configured network name = 'localnet', available = 'local'
+zmq address tcp://PLTSLINK:7776
+28 Jun 2015 18:12:09.289 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Received endpoint available event for network local on application network localnet
+28 Jun 2015 18:12:09.289 [140247690053696] WARN  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - No match found for network name, not creating messenger cache : configured network name = 'localnet', available = 'local'
+28 Jun 2015 18:12:09.289 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.sentinel::probe::Application.lid(6) <> - Received endpoint available event for network local on application network localnet
+28 Jun 2015 18:12:09.289 [140247690053696] WARN  bril.cms.srv-C2C04-07.p:9220.sentinel::probe::Application.lid(6) <> - No match found for network name, not creating messenger cache : configured network name = 'localnet', available = 'local'
+28 Jun 2015 18:12:09.289 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.eventing::core::Publisher.instance(0) <> - Received endpoint available event for network local
+28 Jun 2015 18:12:09.353 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::heartbeat::probe::Application.lid(4) <> - Received endpoint available event for network utcp1 on application network localnet
+28 Jun 2015 18:12:09.353 [140247690053696] WARN  bril.cms.srv-C2C04-07.p:9220.xmas::heartbeat::probe::Application.lid(4) <> - No match found for network name, not creating messenger cache : configured network name = 'localnet', available = 'utcp1'
+28 Jun 2015 18:12:09.353 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - Received endpoint available event for network utcp1 on application network localnet
+28 Jun 2015 18:12:09.353 [140247690053696] WARN  bril.cms.srv-C2C04-07.p:9220.xmas::probe::Application.lid(5) <> - No match found for network name, not creating messenger cache : configured network name = 'localnet', available = 'utcp1'
+28 Jun 2015 18:12:09.353 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.sentinel::probe::Application.lid(6) <> - Received endpoint available event for network utcp1 on application network localnet
+28 Jun 2015 18:12:09.353 [140247690053696] WARN  bril.cms.srv-C2C04-07.p:9220.sentinel::probe::Application.lid(6) <> - No match found for network name, not creating messenger cache : configured network name = 'localnet', available = 'utcp1'
+28 Jun 2015 18:12:09.353 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.eventing::core::Publisher.instance(0) <> - Received endpoint available event for network utcp1
+28 Jun 2015 18:12:09.353 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.eventing::core::Publisher.instance(0) <> - create messenger for network utcp1 url: utcp://vmepc-s2d16-07-01.cms:8184 messenger size is 0
+28 Jun 2015 18:12:09.353 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220.eventing::core::Publisher.instance(0) <> - create messenger for network utcp1 url: utcp://srv-s2d16-27-01.cms:8184 messenger size is 1
+28 Jun 2015 18:12:09.354 [140247690053696] INFO  bril.cms.srv-C2C04-07.p:9220 <> - Ready.
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish
+Publishing Data 
+Try to publish

@@ -1,0 +1,49 @@
+// $Id$
+
+/*************************************************************************
+ * XDAQ Application Template                     						 *
+ * Copyright (C) 2000-2009, CERN.			               				 *
+ * All rights reserved.                                                  *
+ * Authors: L. Orsini, A. Forrest, A. Petrucci							 *
+ *                                                                       *
+ * For the licensing terms see LICENSE.		                         	 *
+ * For the list of contributors see CREDITS.   					         *
+ *************************************************************************/
+
+#ifndef _bril_pltsource_version_h_
+#define _bril_pltsource_version_h_
+
+#include "config/PackageInfo.h"
+
+// !!! Edit this line to reflect the latest package version !!!
+
+#define BRILPLTSOURCE_VERSION_MAJOR 1
+#define BRILPLTSOURCE_VERSION_MINOR 0
+#define BRILPLTSOURCE_VERSION_PATCH 1
+// If any previous versions available E.g. #define ESOURCE_PREVIOUS_VERSIONS "3.8.0,3.8.1"
+#define BRILPLTSOURCE_PREVIOUS_VERSIONS "1.0.0"
+
+//
+// Template macros
+//
+#define BRILPLTSOURCE_VERSION_CODE PACKAGE_VERSION_CODE(BRILPLTSOURCE_VERSION_MAJOR,BRILPLTSOURCE_VERSION_MINOR,BRILPLTSOURCE_VERSION_PATCH)
+#ifndef BRILPLTSOURCE_PREVIOUS_VERSIONS
+#define BRILPLTSOURCE_FULL_VERSION_LIST  PACKAGE_VERSION_STRING(BRILPLTSOURCE_VERSION_MAJOR,BRILPLTSOURCE_VERSION_MINOR,BRILPLTSOURCE_VERSION_PATCH)
+#else
+#define BRILPLTSOURCE_FULL_VERSION_LIST  BRILPLTSOURCE_PREVIOUS_VERSIONS "," PACKAGE_VERSION_STRING(BRILPLTSOURCE_VERSION_MAJOR,BRILPLTSOURCE_VERSION_MINOR,BRILPLTSOURCE_VERSION_PATCH)
+#endif
+
+namespace brilpltsource
+{
+	const std::string package = "brilpltsource";
+	const std::string versions = BRILPLTSOURCE_FULL_VERSION_LIST;
+	const std::string summary = "XDAQ brilDAQ pltsource";
+	const std::string description = "plt histogram readout";
+	const std::string authors = "K.J.Rose";
+	const std::string link = "http://xdaqwiki.cern.ch/";
+	config::PackageInfo getPackageInfo ();
+	void checkPackageDependencies () throw (config::PackageInfo::VersionException);
+	std::set<std::string, std::less<std::string> > getPackageDependencies ();
+}
+
+#endif

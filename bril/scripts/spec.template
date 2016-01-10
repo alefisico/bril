@@ -1,0 +1,150 @@
+%define _package __package__
+%define _packagename __packagename__
+%define _version __version__
+%define _release __release__
+%define _prefix  __prefix__
+%define _tmppath /tmp
+%define _packagedir __packagedir__
+%define _os __os__
+%define _platform __platform__
+%define _project __project__
+%define _author __author__
+%define _summary __summary__
+%define _url __url__
+%define _buildarch __buildarch__
+
+%define _unpackaged_files_terminate_build 0
+
+#
+# Binary RPM specified attributed (lib and bin)
+#
+Summary: %{_summary}
+Name: %{_project}-%{_packagename}
+Version: %{_version}
+Release: %{_release}
+Packager: %{_author}
+#BuildArch: %{_buildarch}
+License: BSD
+Group: Applications/extern
+URL: %{_url}
+BuildRoot: %{_tmppath}/%{_packagename}-%{_version}-%{_release}-buildroot
+Prefix: %{_prefix}
+
+%description
+__description__
+
+
+#%pre
+
+
+#%setup 
+
+#%build
+
+#
+# Prepare the list of files that are the input to the binary and devel RPMs
+#
+%install
+rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/{eventing,timesource,lumistore,globalrun,pltsource,pltprocessor,bcm1fsource,bcm1fprocessor,bhmsource,bhmprocessor}
+
+if [ -s *.py ]; then
+	install -m 755 %{_packagedir}/*.py $RPM_BUILD_ROOT/%{_prefix}/scripts/bril
+fi
+
+if [ -s *.sh ]; then
+	install -m 755 %{_packagedir}/*.sh $RPM_BUILD_ROOT/%{_prefix}/scripts/bril
+fi
+
+if [ -d %{_packagedir}/eventing ]; then 
+	cd %{_packagedir}/eventing; \
+	find ./ -name ".svn" -prune -o -name "*" -exec install -D -m 644 {} $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/eventing/{} \;
+fi
+
+if [ -d %{_packagedir}/timesource ]; then 
+	cd %{_packagedir}/timesource; \
+	find ./ -name ".svn" -prune -o -name "*" -exec install -D -m 644 {} $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/timesource/{} \;
+fi
+
+if [ -d %{_packagedir}/lumistore ]; then 
+	cd %{_packagedir}/lumistore; \
+	find ./ -name ".svn" -prune -o -name "*" -exec install -D -m 644 {} $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/lumistore/{} \;
+fi
+
+if [ -d %{_packagedir}/globalrun ]; then 
+	cd %{_packagedir}/globalrun; \
+	find ./ -name ".svn" -prune -o -name "*" -exec install -D -m 644 {} $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/globalrun/{} \;
+fi
+
+if [ -d %{_packagedir}/pltsource ]; then 
+	cd %{_packagedir}/pltsource; \
+	find ./ -name ".svn" -prune -o -name "*" -exec install -D -m 644 {} $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/pltsource/{} \;
+fi
+
+if [ -d %{_packagedir}/pltprocessor ]; then 
+	cd %{_packagedir}/pltprocessor; \
+	find ./ -name ".svn" -prune -o -name "*" -exec install -D -m 644 {} $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/pltprocessor/{} \;
+fi
+
+if [ -d %{_packagedir}/bcm1fsource ]; then 
+	cd %{_packagedir}/bcm1fsource; \
+	find ./ -name ".svn" -prune -o -name "*" -exec install -D -m 644 {} $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/bcm1fsource/{} \;
+fi
+
+if [ -d %{_packagedir}/bcm1fprocessor ]; then 
+	cd %{_packagedir}/bcm1fprocessor; \
+	find ./ -name ".svn" -prune -o -name "*" -exec install -D -m 644 {} $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/bcm1fprocessor/{} \;
+fi
+
+if [ -d %{_packagedir}/bhmsource ]; then 
+	cd %{_packagedir}/bhmsource; \
+	find ./ -name ".svn" -prune -o -name "*" -exec install -D -m 644 {} $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/bhmsource/{} \;
+fi
+
+if [ -d %{_packagedir}/bhmprocessor ]; then 
+	cd %{_packagedir}/bhmprocessor; \
+	find ./ -name ".svn" -prune -o -name "*" -exec install -D -m 644 {} $RPM_BUILD_ROOT/%{_prefix}/scripts/bril/bhmprocessor/{} \;
+fi
+
+
+#if [ -x %{_packagedir}/scripts/slp_da.cron ]; then
+#	install -m 644 %{_packagedir}/scripts/slp_da.cron $RPM_BUILD_ROOT/etc/cron.d/slp_da.cron
+#fi
+%clean
+rm -rf $RPM_BUILD_ROOT
+
+#
+# Files that go in the binary RPM
+#
+%files
+%defattr(-,root,root,-)
+#%{_prefix}/htdocs
+#/etc/*.zone
+
+%dir
+%{_prefix}/scripts
+
+#%changelog
+
+# As quattor requires
+#%doc MAINTAINER ChangeLog README
+
+%post
+
+%preun
+if [ "$1" = "0" ] ; then # last uninstall
+exists=`/sbin/chkconfig --list | grep xdaqd`
+if [ x"$exists" != x ] ; then
+/sbin/chkconfig --del xdaqd  > /dev/null 2>&1
+fi
+
+exists=`/sbin/chkconfig --list | grep slp`
+if [ x"$exists" != x ] ; then
+/sbin/chkconfig --del slp  > /dev/null 2>&1
+fi
+fi
+
+%postun
+if [ "$1" = "0" ] ; then # last uninstall
+/sbin/service crond restart
+fi

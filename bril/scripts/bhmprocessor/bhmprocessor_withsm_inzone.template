@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ <xc:Context url="http://%hostname%:%contextport%">
+    <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="%hostname%" port="%endpoint%" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>
+ 
+    <xc:Application class="eventing::core::Subscriber" id="103" instance="0" network="utcp1" group="b2in" service="eventing-subscriber" bus="bhm" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:eventing::core::Subscriber" xsi:type="soapenc:Struct">
+        <eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+	       
+    <xc:Application class="eventing::core::Publisher" id="101" instance="0" network="utcp1" group="b2in" service="eventing-publisher" bus="bhm" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:eventing::core::Publisher" xsi:type="soapenc:Struct">
+	<eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+
+   <xc:Application class="bril::lumistore::Application" id="111" instance="0" network="local" service="sm" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::lumistore::Application" xsi:type="soapenc:Struct">
+        <datasources xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="soapenc:Struct" soapenc:position="[0]"> 
+            <properties xsi:type="soapenv:Struct">
+              <topics xsi:type="xsd:string">bhmbxbkg</topics>
+              <bus xsi:type="xsd:string">bhm</bus>
+            </properties>
+          </item>
+        </datasources>
+	<maxstalesec xsi:type="xsd:unsignedInt">30</maxstalesec>
+	<checkagesec xsi:type="xsd:unsignedInt">10</checkagesec>
+	<nrowperwbuf xsi:type="xsd:unsignedInt">1</nrowperwbuf>
+        <maxsizeMB xsi:type="xsd:unsignedInt">500</maxsizeMB>
+        <fileformat xsi:type="xsd:string">hd5</fileformat>
+      </properties>
+   </xc:Application>
+   <xc:Module>%localdaqroot%/lib/libbrillumistore.so</xc:Module>
+
+    <xc:Application class="bril::bhmprocessor::Application" id="121" instance="0" network="local" service="bhmprocessor" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::bhmprocessor::Application" xsi:type="soapenc:Struct">
+       <eventinginput xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="soapenc:Struct"  soapenc:position="[0]"> 
+             <properties xsi:type="soapenc:Struct">
+                <bus xsi:type="xsd:string">bhm</bus>
+                <topics xsi:type="xsd:string">bhmocchist,bhmamphist</topics>
+             </properties>
+          </item> 
+        </eventinginput>
+        <eventingoutput xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">          
+          <item xsi:type="soapenc:Struct" soapenc:position="[0]"> 
+             <properties xsi:type="soapenc:Struct">
+                <topic xsi:type="xsd:string">bhmbxbkg</topic>
+                <buses xsi:type="xsd:string">bhm</buses>
+             </properties>
+          </item>                      
+        </eventingoutput>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbrilbhmprocessor.so</xc:Module>
+
+    <xc:Application class="xmem::probe::Application" id="21" instance="0" network="local" >
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libxmemprobe.so</xc:Module>    
+
+</xc:Context>
+</xc:Partition>

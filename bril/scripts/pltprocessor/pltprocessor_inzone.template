@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<xc:Context url="http://%hostname%:%contextport%">
+  
+    <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="%hostname%" port="%endpoint%" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>
+      	
+    <xc:Application class="eventing::core::Subscriber" id="17" instance="0" network="utcp1" group="b2in" service="eventing-subscriber" bus="plt">
+      <properties xmlns="urn:xdaq-application:eventing::core::Subscriber" xsi:type="soapenc:Struct">
+        <eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+           <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+
+    <xc:Application class="eventing::core::Publisher" id="18" instance="0" network="utcp1" group="b2in" service="eventing-publisher" bus="plt">
+      <properties xmlns="urn:xdaq-application:eventing::core::Publisher" xsi:type="soapenc:Struct">
+        <eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+	
+    <xc:Application class="bril::pltprocessor::Application" id="11" instance="0" network="local" service="pltprocessor" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:bril::pltprocessor::Application" xsi:type="soapenc:Struct">
+	<eventinginput xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="soapenc:Struct" soapenc:position="[0]"> 
+             <properties xsi:type="soapenc:Struct">
+                <bus xsi:type="xsd:string">plt</bus>
+                <topics xsi:type="xsd:string">plthist</topics>
+             </properties>
+          </item> 
+        </eventinginput>
+        <eventingoutput xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[2]">          
+          <item xsi:type="soapenc:Struct" soapenc:position="[0]"> 
+             <properties xsi:type="soapenc:Struct">
+                <topic xsi:type="xsd:string">pltagghist</topic>
+                <buses xsi:type="xsd:string">plt</buses>
+             </properties>
+          </item>
+          <item xsi:type="soapenc:Struct" soapenc:position="[1]"> 
+             <properties xsi:type="soapenc:Struct">
+                <topic xsi:type="xsd:string">pltlumi</topic>
+                <buses xsi:type="xsd:string">plt</buses>
+             </properties>
+          </item>	  
+        </eventingoutput>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+    <xc:Module>%localdaqroot%/lib/libbrilpltprocessor.so</xc:Module>
+    
+    <xc:Application class="xmem::probe::Application" id="21" instance="0" network="local" >
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libxmemprobe.so</xc:Module>    
+
+</xc:Context>
+
+</xc:Partition>

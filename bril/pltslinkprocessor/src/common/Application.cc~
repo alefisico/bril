@@ -1,0 +1,352 @@
+// $Id$
+
+/*************************************************************************
+ * XDAQ Application Template                     						 *
+ * Copyright (C) 2000-2009, CERN.			               				 *
+ * All rights reserved.                                                  *
+ * Authors: L. Orsini, A. Forrest, A. Petrucci							 *
+ *                                                                       *
+ * For the licensing terms see LICENSE.		                         	 *
+ * For the list of contributors see CREDITS.   					         *
+ *************************************************************************/
+
+#include <sstream>
+#include <string>
+#include "cgicc/CgiDefs.h"
+#include "cgicc/Cgicc.h"
+#include "cgicc/HTTPHTMLHeader.h"
+#include "cgicc/HTMLClasses.h"
+#include "xgi/framework/Method.h"
+
+#include "bril/pltslinkprocessor/Application.h"
+#include "bril/pltslinkprocessor/exception/Exception.h"
+#include "interface/bril/PLTSlinkTopics.hh"
+
+#include "eventing/api/exception/Exception.h"
+
+#include "xdata/Properties.h"
+
+#include "toolbox/mem/HeapAllocator.h"
+#include "toolbox/mem/MemoryPoolFactory.h"
+#include "xcept/tools.h"
+#include "xdata/InfoSpaceFactory.h"
+#include "toolbox/TimeVal.h"
+#include "toolbox/task/TimerFactory.h"
+
+#include "root/TCanvas.h"
+#include "root/TStyle.h"
+#include "root/TLine.h"
+#include "root/TROOT.h"
+
+#include "b2in/nub/Method.h"
+//#include "toolbox/regex.h"
+#include "toolbox/task/WorkLoop.h"
+#include "toolbox/task/WorkLoopFactory.h"
+
+XDAQ_INSTANTIATOR_IMPL (bril::pltslinkprocessor::Application)
+
+using namespace interface::bril;
+
+bril::pltslinkprocessor::Application::Application (xdaq::ApplicationStub* s) throw (xdaq::exception::Exception)
+	: xdaq::Application(s),xgi::framework::UIManager(this),eventing::api::Member(this)
+{
+	xgi::framework::deferredbind(this,this,&bril::pltslinkprocessor::Application::Default, "Default");
+	b2in::nub::bind(this, &bril::pltslinkprocessor::Application::onMessage);
+	m_poolFactory = toolbox::mem::getMemoryPoolFactory();
+	m_appDescriptor = getApplicationDescriptor();
+	m_classname = m_appDescriptor->getClassName();
+	m_instanceid = m_appDescriptor->getInstance();
+	
+	std::string memPoolName = m_classname + m_instanceid.toString() + std::string("_memPool");
+	toolbox::mem::HeapAllocator* allocator = new toolbox::mem::HeapAllocator();
+	toolbox::net::URN urn("toolbox-mem-pool",memPoolName);
+	m_memPool = m_poolFactory->createPool(urn, allocator);
+	m_timername="lumiPLT_SlinkprocessorTimer";
+	do_starttimer();
+	for(int ihist = 0; ihist<16; ihist++){
+	  for(int iroc = 0; iroc<3; iroc++){
+	  char histname[80];
+	  sprintf(histname, "ChannelOccupancy_CHA%i_ROC%i", ihist, iroc);
+	  m_OccupancyPlots[((ihist*3)+iroc)] = new TH2F(histname, histname, 100, 0, 100, 100, 0, 100);
+	  }
+	}
+
+	try{
+	  getApplicationInfoSpace()->fireItemAvailable("eventinginput",&m_datasources);
+	  getApplicationInfoSpace()->fireItemAvailable("eventingoutput",&m_outputtopics);
+	  getApplicationInfoSpace()->addListener(this, "urn:xdaq-event:setDefaultValues");
+	  m_publishing = toolbox::task::getWorkLoopFactory()->getWorkLoop(m_appDescriptor->getURN()+"_publishing","waiting");
+	}
+	catch(xcept::Exception & e){
+	  XCEPT_RETHROW(xdaq::exception::Exception, "Failed to add Listener", e);
+	}
+
+ }
+
+bril::pltslinkprocessor::Application::~Application ()
+{
+  QueueStoreIt it;
+  for(it=m_topicoutqueues.begin();it!=m_topicoutqueues.end();++it){
+    delete it->second;
+  }
+  m_topicoutqueues.clear();
+}
+
+void bril::pltslinkprocessor::Application::actionPerformed(xdata::Event& e){
+  std::stringstream msg;
+  if(e.type() == "urn:xdaq-event:setDefaultValues"){
+    size_t nsources = m_datasources.elements();
+    try{
+      for(size_t i=0;i<nsources;++i){
+	xdata::Properties* p = dynamic_cast<xdata::Properties*>(m_datasources.elementAt(i));
+	xdata::String databus;
+	xdata::String topicsStr;
+	if(p){
+	  databus = p->getProperty("bus");  	 
+	  topicsStr = p->getProperty("topics");
+	  std::set<std::string> topics = toolbox::parseTokenSet(topicsStr.value_,","); 	  
+	  m_in_busTotopics.insert(std::make_pair(databus.value_,topics));
+	}
+      }
+      subscribeall();
+      size_t ntopics = m_outputtopics.elements();
+      for(size_t i=0;i<ntopics;++i){
+	xdata::Properties* p = dynamic_cast<xdata::Properties*>(m_outputtopics.elementAt(i));
+	if(p){
+	  xdata::String topicname = p->getProperty("topic");
+	  xdata::String outputbusStr = p->getProperty("buses");
+	  std::set<std::string> outputbuses = toolbox::parseTokenSet(outputbusStr.value_,",");
+	  for(std::set<std::string>::iterator it=outputbuses.begin(); it!=outputbuses.end(); ++it){
+	    m_out_topicTobuses.insert(std::make_pair(topicname.value_,*it));
+	  }
+	  m_topicoutqueues.insert(std::make_pair(topicname.value_,new toolbox::squeue<toolbox::mem::Reference*>));
+	  m_unreadybuses.insert(outputbuses.begin(),outputbuses.end());
+	}
+      }
+      for(std::set<std::string>::iterator it=m_unreadybuses.begin(); it!=m_unreadybuses.end(); ++it){
+	this->getEventingBus(*it).addActionListener(this);
+      }
+    }catch(xdata::exception::Exception& e){
+      msg<<"Failed to parse application property";
+      LOG4CPLUS_ERROR(getApplicationLogger(), msg);
+      XCEPT_RETHROW(bril::pltslinkprocessor::exception::Exception, msg.str(), e);
+    }  
+  }
+}
+
+void bril::pltslinkprocessor::Application::actionPerformed(toolbox::Event& e){
+  if(e.type() == "eventing::api::BusReadyToPublish" ){
+    std::string busname = (static_cast<eventing::api::Bus*>(e.originator()))->getBusName();
+    std::stringstream msg;
+    msg<< "event Bus '" << busname << "' is ready to publish";
+    m_unreadybuses.erase(busname);
+    if(m_unreadybuses.size()!=0) return; //wait until all buses are ready
+    try{    
+      toolbox::task::ActionSignature* as_publishing = toolbox::task::bind(this,&bril::pltslinkprocessor::Application::publishing,"publishing");
+      m_publishing->activate();
+      m_publishing->submit(as_publishing);
+    }catch(toolbox::task::exception::Exception& e){
+      msg<<"Failed to start publishing workloop "<<stdformat_exception_history(e);
+      LOG4CPLUS_ERROR(getApplicationLogger(),msg.str());
+      XCEPT_RETHROW(bril::pltslinkprocessor::exception::Exception,msg.str(),e);	
+    }    
+  }
+}
+
+void bril::pltslinkprocessor::Application::subscribeall(){
+  for(std::map<std::string, std::set<std::string> >::iterator bit=m_in_busTotopics.begin(); bit!=m_in_busTotopics.end(); ++bit ){
+    std::string busname = bit->first; 
+    for(std::set<std::string>::iterator topicit=bit->second.begin(); topicit!= bit->second.end(); ++topicit){       
+      LOG4CPLUS_INFO(getApplicationLogger(),"subscribing "+busname+":"+*topicit); 
+      try{
+	this->getEventingBus(busname).subscribe(*topicit);
+      }catch(eventing::api::exception::Exception& e){
+	LOG4CPLUS_ERROR(getApplicationLogger(),"failed to subscribe, remove topic "+stdformat_exception_history(e));
+	m_in_busTotopics[busname].erase(*topicit);
+      }
+    }
+  }
+}
+
+
+/*
+ * This is the default web page for this XDAQ application.
+ */
+void bril::pltslinkprocessor::Application::Default (xgi::Input * in, xgi::Output * out) throw (xgi::exception::Exception)
+{
+  
+  *out << busesToHTML();
+  std::string appurl = getApplicationContext()->getContextDescriptor()->getURL()+"/"+m_appDescriptor->getURN();
+  *out << appurl;
+  *out << cgicc::br();
+  
+  *out << cgicc::table().set("class","xdaq-table-vertical");
+  *out << cgicc::caption("input/output");
+  *out << cgicc::tbody();
+  
+  *out << cgicc::tr();
+  *out << cgicc::th("in_topics");
+  *out << cgicc::td(pltslinkhistT::topicname());
+  *out << cgicc::tr();
+  
+  *out << cgicc::tr();
+  *out << cgicc::th("out_topics");
+  *out << cgicc::td( pltslinkhistT::topicname());
+  *out << cgicc::tr();
+  
+  *out << cgicc::tbody(); 
+  *out << cgicc::table();
+  *out << cgicc::br() << std::endl;
+  
+  *out << cgicc::img().set("src","/nfshome0/brilpro/plt/daq/bril/pltslinkprocessor/OccupancyPlot_CHA15_ROC2.gif").set("height", "100").set("width","100") << std::endl;
+
+}
+
+/*
+ * This is the place where we receive messages.
+ */
+void bril::pltslinkprocessor::Application::onMessage (toolbox::mem::Reference * ref, xdata::Properties & plist) throw (b2in::nub::exception::Exception)
+{
+  // The eventing can send 'control' messages, so we need to check we are receiving a user message.
+  std::stringstream msg;
+  std::string action = plist.getProperty("urn:b2in-eventing:action");
+  if (action == "notify"){
+    std::string topic = plist.getProperty("urn:b2in-eventing:topic");
+    LOG4CPLUS_DEBUG(getApplicationLogger(), "Received data from "+topic);
+    std::string v = plist.getProperty("DATA_VERSION");
+    if(v.empty()){
+      msg<<"Received data message without version header, do not process.";
+      LOG4CPLUS_ERROR(getApplicationLogger(),msg.str());
+      if(ref!=0){
+	ref->release();
+	ref=0;
+      }
+      return;
+    }
+    if(v!=DATA_VERSION){
+      msg.str("");
+      msg<<"Mismatched data version, exiting";
+      LOG4CPLUS_ERROR(getApplicationLogger(),msg.str());
+      if(ref!=0){
+	ref->release();
+	ref=0;
+      }
+      return;
+    }
+
+    //First handle the topic sent if the number of active channels has changed.
+
+//    std::cout<<"received topic "<<topic<<std::endl;
+    std::vector<std::string> substrings;
+    if (topic == pltslinkhistT::topicname()){    
+      DatumHead* inheader = (DatumHead*)(ref->getDataLocation());
+      toolbox::TimeVal t = toolbox::TimeVal::gettimeofday();      
+      unsigned int fill = inheader->fillnum;
+      unsigned int run = inheader->runnum;
+      unsigned int ls = inheader->lsnum;
+      unsigned int channelId = inheader->getChannelID();//count from 1
+      unsigned int nb = inheader->nbnum;
+      msg<<"process on fill "<<fill<<" run "<<run<<" ls " << ls << " nibble "<< nb;
+      LOG4CPLUS_DEBUG(getApplicationLogger(),msg.str());
+      pltslinkhistT* dataptr=(pltslinkhistT*)ref->getDataLocation();      
+      unsigned int tot = 0;
+      //      for(int iiii = 0; iiii<3654; iiii++){
+      //	tot+=dataptr->payload()[iiii];}
+      LOG4CPLUS_DEBUG(getApplicationLogger(),msg.str());
+      uint32_t NHits = dataptr->payload()[0];
+      std::cout << "Total number of pixel hits is " << NHits << std::endl;
+
+      
+      for(int ihits = 0; ihits<NHits; ihits++){
+        m_OccupancyPlots[((dataptr->payload()[ihits+101])*3+dataptr->payload()[ihits+151])]->Fill(dataptr->payload()[ihits+51], dataptr->payload()[ihits+1]);
+      }
+    }
+  }
+  if(ref != 0){
+    ref->release();
+  }  
+}
+
+void bril::pltslinkprocessor::Application::do_publish(const std::string& busname,const std::string& topicname,toolbox::mem::Reference* bufRef){
+  std::stringstream msg;
+  try{
+    xdata::Properties plist;
+    plist.setProperty("DATA_VERSION",DATA_VERSION);
+    std::map<std::string,std::string>::iterator it=m_outtopicdicts.find(topicname);
+    if( it!=m_outtopicdicts.end() ){
+      plist.setProperty("PAYLOAD_DICT",it->second);
+    }
+    msg << "publish to "<<busname<<" , "<<topicname; 
+    this->getEventingBus(busname).publish(topicname,bufRef,plist);
+  }catch(xcept::Exception& e){
+    msg<<"Failed to publish "<<topicname<<" to "<<busname;    
+    LOG4CPLUS_ERROR(getApplicationLogger(),stdformat_exception_history(e));
+    if(bufRef){
+      bufRef->release();
+      bufRef = 0;
+    }
+    XCEPT_DECLARE_NESTED(bril::pltslinkprocessor::exception::Exception,myerrorobj,msg.str(),e);
+    this->notifyQualified("fatal",myerrorobj);
+  }  
+}
+ 
+
+bool bril::pltslinkprocessor::Application::publishing(toolbox::task::WorkLoop* wl){
+  QueueStoreIt it;
+  for(it=m_topicoutqueues.begin();it!=m_topicoutqueues.end();++it){
+    if(it->second->empty()) continue;
+    std::string topicname = it->first;
+    	    LOG4CPLUS_INFO(getApplicationLogger(),"Publishing "+topicname);
+    toolbox::mem::Reference* data = it->second->pop();
+    std::pair<TopicStoreIt,TopicStoreIt > ret = m_out_topicTobuses.equal_range(topicname);
+    for(TopicStoreIt topicit = ret.first; topicit!=ret.second;++topicit){
+      if(data) do_publish(topicit->second,topicname,data->duplicate());    
+    }
+    if(data) data->release();
+  }
+  return true;
+}
+
+
+void bril::pltslinkprocessor::Application::do_stoptimer(){
+  toolbox::task::Timer* timer = toolbox::task::TimerFactory::getInstance()->getTimer(m_timername);
+  if( timer->isActive() ){
+    timer->stop();
+  }
+}
+
+void bril::pltslinkprocessor::Application::do_starttimer(){
+  if(!toolbox::task::TimerFactory::getInstance()->hasTimer(m_timername)){
+    (void) toolbox::task::TimerFactory::getInstance()->createTimer(m_timername);
+  }
+  toolbox::task::Timer* timer = toolbox::task::TimerFactory::getInstance()->getTimer(m_timername);
+  toolbox::TimeInterval interval(10,0);
+  try{
+    do_stoptimer();
+    toolbox::TimeVal start = toolbox::TimeVal::gettimeofday();
+    timer->start();
+    timer->scheduleAtFixedRate( start, this, interval, 0, m_timername);
+  }catch (toolbox::task::exception::InvalidListener& e){
+    LOG4CPLUS_FATAL (this->getApplicationLogger(), xcept::stdformat_exception_history(e));
+  }catch (toolbox::task::exception::InvalidSubmission& e){
+    LOG4CPLUS_FATAL (this->getApplicationLogger(), xcept::stdformat_exception_history(e));
+  }catch (toolbox::task::exception::NotActive& e){
+    LOG4CPLUS_FATAL (this->getApplicationLogger(), xcept::stdformat_exception_history(e));
+  }catch (toolbox::exception::Exception& e){
+    LOG4CPLUS_FATAL (this->getApplicationLogger(), xcept::stdformat_exception_history(e));
+  }
+}
+
+
+void bril::pltslinkprocessor::Application::timeExpired(toolbox::task::TimerEvent& e){
+  std::cout << "Making plots" << std::endl;
+  TCanvas *c = new TCanvas("Occupancy", "Occupancy");
+  
+  for(int ihist = 0; ihist < 16; ihist++){
+    for(int iroc = 0; iroc < 3; iroc++){
+      m_OccupancyPlots[((ihist*3)+iroc)]->Draw("colz");
+      c->SaveAs(TString::Format("/nfshome0/brilpro/plt/daq/bril/pltslinkprocessor/OccupancyPlot_CHA%i_ROC%i.gif", ihist, iroc));
+      m_OccupancyPlots[((ihist*3)+iroc)]->Reset("ICES");
+    }
+  }
+}

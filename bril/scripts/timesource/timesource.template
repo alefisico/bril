@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+ <xc:Context url="http://%hostname%:%tscontextport%">
+    <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="%hostname%" port="%tsendpoint%" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>
+
+    <xc:Application class="pt::utcp::Application" id="12" instance="0" network="local">
+      <properties xmlns="urn:xdaq-application:pt::utcp::Application" xsi:type="soapenc:Struct">
+	<maxClients xsi:type="xsd:unsignedInt">10</maxClients>
+        <autoConnect xsi:type="xsd:boolean">false</autoConnect>
+        <ioQueueSize xsi:type="xsd:unsignedInt">65536</ioQueueSize>
+        <eventQueueSize xsi:type="xsd:unsignedInt">65536</eventQueueSize>
+        <maxReceiveBuffers xsi:type="xsd:unsignedInt">2</maxReceiveBuffers>
+        <maxBlockSize xsi:type="xsd:unsignedInt">%pt_maxblocksize%</maxBlockSize>
+        <committedPoolSize xsi:type="xsd:double">%pt_committedpoolsize%</committedPoolSize> 
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libtcpla.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libptutcp.so</xc:Module>
+	       
+    <xc:Application class="eventing::core::Publisher" id="16" instance="0" network="utcp1" group="b2in" service="eventing-publisher" bus="brildata" logpolicy="inherit">
+      <properties xmlns="urn:xdaq-application:eventing::core::Publisher" xsi:type="soapenc:Struct">
+	<eventings xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[1]">
+          <item xsi:type="xsd:string" soapenc:position="[0]">utcp://%eventinghostname%:%utcpport%</item>
+        </eventings>
+      </properties>
+    </xc:Application>
+    <xc:Module>${XDAQ_ROOT}/lib/libb2inutils.so</xc:Module>
+    <xc:Module>${XDAQ_ROOT}/lib/libeventingcore.so</xc:Module>
+    
+<xc:Application class="bril::timesource::Application" id="11" instance="0" network="local" logpolicy="inherit">
+  <properties xmlns="urn:xdaq-application:bril::timesource::Application" xsi:type="soapenc:Struct">
+    <simSource xsi:type="xsd:boolean">true</simSource>
+    <swInitFill xsi:type="xsd:unsignedInt">2332</swInitFill>
+    <swInitRun xsi:type="xsd:unsignedInt">123450</swInitRun>
+    <swLSPerRun xsi:type="xsd:unsignedInt">2</swLSPerRun>
+    <swNRuns xsi:type="xsd:unsignedInt">2</swNRuns>
+    <swRunPerFill xsi:type="xsd:unsignedInt">2</swRunPerFill>
+    <tcdsBus xsi:type="xsd:string">bleh</tcdsBus>
+    <tcdsTopic xsi:type="xsd:string">blaf</tcdsTopic>
+    <swNBTimers xsi:type="soapenc:Array" soapenc:arrayType="xsd:ur-type[2]">
+      <item xsi:type="soapenc:Struct"  soapenc:position="[0]"> 
+        <properties xsi:type="soapenc:Struct">
+         <signalTopic xsi:type="xsd:string">NB4</signalTopic>
+         <nbFrequency xsi:type="xsd:string">4</nbFrequency>
+         <buses xsi:type="xsd:string">brildata</buses>
+        </properties>
+      </item>
+      <item xsi:type="soapenc:Struct"  soapenc:position="[1]"> 
+        <properties xsi:type="soapenc:Struct">
+           <signalTopic xsi:type="xsd:string">NB64</signalTopic>
+           <nbFrequency xsi:type="xsd:string">64</nbFrequency>
+	   <buses xsi:type="xsd:string">brildata</buses>
+        </properties>
+      </item>       
+    </swNBTimers>
+  </properties>
+</xc:Application>
+<xc:Module>${XDAQ_ROOT}/lib/libeventingapi.so</xc:Module>
+<xc:Module>%localdaqroot%/lib/libbriltimesource.so</xc:Module>	   
+
+ <xc:Application class="xmem::probe::Application" id="21" instance="0" network="local" >
+  </xc:Application>
+<xc:Module>${XDAQ_ROOT}/lib/libxmemprobe.so</xc:Module>    
+
+</xc:Context>
+</xc:Partition>
