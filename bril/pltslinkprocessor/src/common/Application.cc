@@ -46,6 +46,12 @@
 #include "toolbox/task/WorkLoopFactory.h"
 #include "bril/pltslinkprocessor/zmq.hpp"
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
+using boost::property_tree::ptree;
+using boost::property_tree::write_json;
+
 XDAQ_INSTANTIATOR_IMPL (bril::pltslinkprocessor::Application)
 
 using namespace interface::bril;
@@ -395,6 +401,7 @@ void bril::pltslinkprocessor::Application::do_zmqclient(){
   uint32_t tcds_info[4];
   uint32_t channel;	
   int n_messages = 0;
+  int dummyCounter = 0;
   while(1){
     zmq::message_t zmq_EventHisto(3573*sizeof(uint32_t));
     zmq_socket.recv(&zmq_EventHisto);
@@ -408,7 +415,9 @@ void bril::pltslinkprocessor::Application::do_zmqclient(){
       run = tcds_info[2]; 
       ls = tcds_info[1]; 
     std::cout << "zmq message received with fill " << tcds_info[3] << " run " << tcds_info[2] << " LS " << tcds_info[1] << "NB" << tcds_info[0] << std::endl;
-    if(tcds_info[0]==64) make_plots();}
+    if(tcds_info[0]==64) dummyCounter++;
+    if(dummyCounter==5){ make_plots(); dummyCounter=0;}
+    }
   }
 
 
@@ -416,62 +425,136 @@ void bril::pltslinkprocessor::Application::do_zmqclient(){
 
 
 void bril::pltslinkprocessor::Application::make_plots(){
+
   std::cout << "Making plots" << std::endl;
-  TCanvas *c = new TCanvas("Occupancy", "Occupancy");
+  //TCanvas *c = new TCanvas("Occupancy", "Occupancy");
 
   char outFolderROOT[80] = "/nfshome0/algomez/PLTPlots/";
   char filenameROOT[80];
   sprintf(filenameROOT, "run%i_ls%i_streamDQMPLT_eventing-bus.root", run, ls );
   TFile DQMFile(strcat(outFolderROOT,filenameROOT), "RECREATE");
   char filedirROOT[80];
-  sprintf(filedirROOT, "Run summary/%i/BRIL", run );
-  TDirectory *cdtof = DQMFile.mkdir( filedirROOT );
-  cdtof->cd(); 
+  //sprintf(filedirROOT, "Run summary/%i/BRIL", run );
+  //TDirectory *cdtof = DQMFile.mkdir( filedirROOT );
+  //cdtof->cd(); 
 
   char outFolderDAT[80] = "/nfshome0/algomez/PLTPlots/";
   char filenameDAT[80];
   sprintf(filenameDAT, "run%i_ls%d_streamDQMPLT_eventing-bus.dat", run, ls );
-  FILE *fileDAT;
-  fileDAT = fopen( strcat(outFolderDAT,filenameDAT), "w");
+  //FILE *fileDAT;
+  //fileDAT = fopen( strcat(outFolderDAT,filenameDAT), "w");
+  //fprintf( fileDAT , "{ \"plots\" : [\n");
+  int dumCounter = 0;
+
+
+  ptree dataJsonPtree;
+  ptree plots;
   for(int ihist = 0; ihist < 16; ihist++){
     for(int iroc = 0; iroc < 3; iroc++){
       m_OccupancyPlots[((ihist*3)+iroc)]->Draw("colz");
       m_OccupancyPlots[((ihist*3)+iroc)]->Write();
 
-	  fprintf( fileDAT , "{ \"name\"   : \"OccupancyPlots\",\n");
-	  fprintf( fileDAT , "  \"type\"   : \"2D\",\n");
-	  fprintf( fileDAT , "  \"titles\" : \"[OccupancyPlot_CHA%i_ROC%i, Row (ROC %i), Column (ROC %i)]\",\n", ihist, iroc, iroc, iroc );  // should be run
-	  fprintf( fileDAT , "  \"nbins\"  : \"[100, 100]\",\n");
-	  fprintf( fileDAT , "  \"data\"   : \"[");
+	ptree eachPlot;
+
+	  //fprintf( fileDAT , "  { \"name\"   : \"OccupancyPlots\", ");
+	  //fprintf( fileDAT , "  \"type\"   : \"2D\", ");
+	eachPlot.put( "type", "2D" );
+	  //fprintf( fileDAT , "  \"titles\" : \"[OccupancyPlot_CHA%i_ROC%i, Row (ROC %i), Column (ROC %i)]\", ", ihist, iroc, iroc, iroc );  // should be run
+	char titles[80];
+	sprintf( titles, "OccupancyPlot_CHA%i_ROC%i, Row (ROC %i), Column (ROC %i)", ihist, iroc, iroc, iroc );
+	eachPlot.put( "titles", titles );
+	  //fprintf( fileDAT , "  \"nbins\"  : \"[100, 100]\", ");
+	ptree nbinsX, nbinsY;
+	ptree plotNbins;
+	nbinsX.put("", 100);
+	nbinsY.put("", 100);
+	plotNbins.push_back(std::make_pair("", nbinsX));
+	plotNbins.push_back(std::make_pair("", nbinsY));
+	eachPlot.add_child( "nbins", plotNbins );
+	  //fprintf( fileDAT , "  \"xrange\"   : \"[0,100]\", ");
+	ptree minX, maxX;
+	ptree rangeX;
+	minX.put("", 0);
+	maxX.put("", 100);
+	rangeX.push_back(std::make_pair("", minX));
+	rangeX.push_back(std::make_pair("", maxX));
+	eachPlot.add_child( "xrange", rangeX );
+	  //fprintf( fileDAT , "  \"yrange\"   : \"[0,100]\", ");
+	ptree minY, maxY;
+	ptree rangeY;
+	minY.put("", 0);
+	maxY.put("", 100);
+	rangeY.push_back(std::make_pair("", minY));
+	rangeY.push_back(std::make_pair("", maxY));
+	eachPlot.add_child( "yrange", rangeY );
+
+	  //fprintf( fileDAT , "  \"data\"   : \"[ ");
 	double w;
+	ptree plotData;
 	for (int biny=0; biny<= m_OccupancyPlots[((ihist*3)+iroc)]->GetNbinsY()+1; biny++) {
 		for (int binx=0; binx<= m_OccupancyPlots[((ihist*3)+iroc)]->GetNbinsX()+1; binx++) {
 		        w = m_OccupancyPlots[((ihist*3)+iroc)]->GetBinContent(binx,biny);
-            		fprintf( fileDAT , "%d %d %g, ", binx,biny,w );
+            		if(w!=0) {
+				//fprintf( fileDAT , "%d %d %g, ", binx,biny,w );
+				ptree binContent;
+				ptree X, Y, W; 
+				X.put("", binx);
+				Y.put("", biny);
+				W.put("", w);
+				binContent.push_back(std::make_pair("", X));
+				binContent.push_back(std::make_pair("", Y));
+				binContent.push_back(std::make_pair("", W));
+				plotData.push_back(std::make_pair("", binContent));
+ 
+			}
          	}
 		dummy++; 
       	}
-	  fprintf( fileDAT , "],\n");
-	  fprintf( fileDAT , "  \"xrange\"   : \"[0,100]\",\n");
-	  fprintf( fileDAT , "  \"yrange\"   : \"[0,100]\",\n");
-	  fprintf( fileDAT , "  \"integral\" : \"[0 ]\"\n}\n");
+	  //fprintf( fileDAT , "]\", ");
+	eachPlot.add_child("data", plotData);
+	  //fprintf( fileDAT , "  \"integral\" : \"[0 ]\" },\n");
+	  dumCounter++;
 
-
-      c->SaveAs(TString::Format("/nfshome0/algomez/PLTPlots/OccupancyPlot_CHA%i_ROC%i.pdf", ihist, iroc));
+	plots.push_back(std::make_pair("", eachPlot ));
+      //c->SaveAs(TString::Format("/nfshome0/algomez/PLTPlots/OccupancyPlot_CHA%i_ROC%i.pdf", ihist, iroc));
       //m_OccupancyPlots[((ihist*3)+iroc)]->Reset("ICES");
     }
   }
+  //fprintf( fileDAT , "]}");
+	dataJsonPtree.add_child("OccupancyPlots", plots);
+	write_json( strcat(outFolderDAT,filenameDAT), dataJsonPtree);
+
+
   char outFolder[80] = "/nfshome0/algomez/PLTPlots/";
   char filenameJSN[80];
   sprintf(filenameJSN, "run%i_ls%i_streamDQMPLT_eventing-bus.jsn", run, ls );
-  FILE *fileJSN;
-  fileJSN = fopen( strcat(outFolder, filenameJSN), "w");
-  fprintf( fileJSN, "{\"data\": [1 %i, 1 %i, 0, \"%s\", 0, 0, 0, 0, 0, ""]}", ientry, ientry, filenameROOT);
-  fclose(fileJSN);
+  //FILE *fileJSN;
+  //fileJSN = fopen( strcat(outFolder, filenameJSN), "w");
+  ptree jsonPtree;
+  ptree infoData, infoEntries, infoFilename, infoZeros, infoEmpty;
+  infoEntries.put<int>("", ientry);
+  infoFilename.put("", filenameDAT);
+  infoEmpty.put("", "");
+  infoZeros.put<int>("", 0);
+  infoData.push_back(std::make_pair("", infoEntries));
+  infoData.push_back(std::make_pair("", infoEntries));
+  infoData.push_back(std::make_pair("", infoZeros));
+  infoData.push_back(std::make_pair("", infoFilename));
+  infoData.push_back(std::make_pair("", infoZeros));
+  infoData.push_back(std::make_pair("", infoZeros));
+  infoData.push_back(std::make_pair("", infoZeros));
+  infoData.push_back(std::make_pair("", infoZeros));
+  infoData.push_back(std::make_pair("", infoZeros));
+  infoData.push_back(std::make_pair("", infoEmpty));
+  jsonPtree.add_child( "data", infoData );
+  write_json( strcat(outFolder,filenameJSN), jsonPtree);
+  
+  //fprintf( fileJSN, "{\"data\": [1 %i, 1 %i, 0, \"%s\", 0, 0, 0, 0, 0, ""]}", ientry, ientry, filenameROOT);
+  //fclose(fileJSN);
 
   DQMFile.Write();
   DQMFile.Close();
-  fclose(fileDAT);
+  //fclose(fileDAT);
   std::cout << "Output complete. DQM files " << filenameJSN << ", " << filenameDAT << " and " << filenameROOT << " created." << std::endl;
 
 }
