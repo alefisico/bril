@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xc:Partition xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xc="http://xdaq.web.cern.ch/xdaq/xsd/2004/XMLConfiguration-30" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-<xc:Context url="http://srv-C2C04-07.cms:30035">	
-  <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="srv-C2C04-07.cms" port="30050" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>	
+<xc:Context url="http://srv-s2d16-29-01.cms:30035">	
+  <xc:Endpoint protocol="utcp" service="b2in" rmode="select" hostname="srv-s2d16-29-01.cms" port="30050" network="utcp1" sndTimeout="2000" rcvTimeout="2000" affinity="RCV:P,SND:W,DSR:W,DSS:W" singleThread="true" publish="true"/>	
 	<xc:Application class="pt::utcp::Application" id="20" instance="0" network="local" heartbeat="false" logpolicy="inherit">
   <properties xmlns="urn:xdaq-application:pt::utcp::Application" xsi:type="soapenc:Struct">
    <maxBlockSize xsi:type="xsd:unsignedInt">65536</maxBlockSize>

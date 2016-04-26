@@ -77,7 +77,7 @@ bril::pltslinkprocessor::Application::Application (xdaq::ApplicationStub* s) thr
 	for(int ihist = 0; ihist<16; ihist++){
 		for(int iroc = 0; iroc<3; iroc++){
 			char histname[80];
-			sprintf(histname, "ChannelOccupancy_CHA%i_ROC%i", ihist, iroc);
+			sprintf(histname, "ChannelOccupancy_CHA%02d_ROC%02d", ihist, iroc);
 			m_OccupancyPlots[((ihist*3)+iroc)] = new TH2F(histname, histname, 100, 0, 100, 100, 0, 100);
 		}
 	}
@@ -279,11 +279,32 @@ void bril::pltslinkprocessor::Application::onMessage (toolbox::mem::Reference * 
 			uint32_t NHits = dataptr->payload()[0];
 			std::cout << "Total number of pixel hits is " << NHits << std::endl;
 
+			//for( int tmp = 0; tmp<3000; tmp++){
+			//	if( dataptr->payload()[tmp] > 0 ) std::cout << tmp << " " << dataptr->payload()[tmp] <<  " " << std::endl; 
+			//}
+
 			for(int ihits = 0; ihits<NHits; ihits++){
-				//std::cout << "ihits+1501 " << dataptr->payload()[ihits+1501] << std::endl;
-				//std::cout << "ihits+1001 " << (dataptr->payload()[ihits+1001]) << std::endl;
-				//std::cout << "dataptr " << ((dataptr->payload()[ihits+1001])+dataptr->payload()[ihits+1501]) << std::endl;
-				m_OccupancyPlots[((dataptr->payload()[ihits+1001])+dataptr->payload()[ihits+1501])]->Fill(dataptr->payload()[ihits+501], dataptr->payload()[ihits+1]);
+				int FEDChannel =  dataptr->payload()[ihits+1001];
+				int channel = 0;
+				if ( FEDChannel == 1 ) channel = 0;
+				else if ( FEDChannel == 2 ) channel = 1;
+				else if ( FEDChannel == 4 ) channel = 2;
+				else if ( FEDChannel == 5 ) channel = 3;
+				else if ( FEDChannel == 7 ) channel = 4;
+				else if ( FEDChannel == 8 ) channel = 5;
+				else if ( FEDChannel == 10 ) channel = 6;
+				else if ( FEDChannel == 11 ) channel = 7;
+				else if ( FEDChannel == 13 ) channel = 8;
+				else if ( FEDChannel == 14 ) channel = 9;
+				else if ( FEDChannel == 16 ) channel = 10;
+				else if ( FEDChannel == 17 ) channel = 11;
+				else if ( FEDChannel == 19 ) channel = 12;
+				else if ( FEDChannel == 20 ) channel = 13;
+				else if ( FEDChannel == 22 ) channel = 14;
+				else if ( FEDChannel == 23 ) channel = 15;
+				//std::cout << channel << " " << FEDChannel << std::endl;
+
+				m_OccupancyPlots[((( channel*3 )) + dataptr->payload()[ihits+1501])]->Fill(dataptr->payload()[ihits+501], dataptr->payload()[ihits+1]);
 			}
 		}
 	}
@@ -401,8 +422,10 @@ void bril::pltslinkprocessor::Application::do_zmqclient(){
 			fill = tcds_info[3];
 			run = tcds_info[2]; 
 			ls = tcds_info[1]; 
-			std::cout << "zmq message received with fill " << tcds_info[3] << " run " << tcds_info[2] << " LS " << tcds_info[1] << "NB" << tcds_info[0] << std::endl;
-			if(tcds_info[0]==64) { make_plots();}
+			if(tcds_info[0]==64) { 
+				make_plots();
+				std::cout << "zmq message received with fill " << tcds_info[3] << " run " << tcds_info[2] << " LS " << tcds_info[1] << "NB" << tcds_info[0] << std::endl;
+			}
 		}
 	}
 
@@ -413,20 +436,20 @@ void bril::pltslinkprocessor::Application::do_zmqclient(){
 void bril::pltslinkprocessor::Application::make_plots(){
 
 	std::cout << "Making plots" << std::endl;
-	char folderName[80];
-	sprintf(folderName, "/cmsnfsscratch/globalscratch/cmsbril/PLT/DQM/run%i", run );
+	char folderName[160];
+	sprintf(folderName, "/cmsnfsscratch/globalscratch/cmsbril/PLT/DQM/run%06d", run );
 	struct stat st;
 	if(stat( folderName, &st ) != 0 ) mkdir( folderName, 0777 );
 
-	char outFolderROOT[80] = "/cmsnfsscratch/globalscratch/cmsbril/PLT/DQM/";
-	char filenameROOT[80];
-	sprintf(filenameROOT, "run%i/run%i_ls%i_streamDQMPLT_eventing-bus.root", run, run, ls );
+	char outFolderROOT[160] = "/cmsnfsscratch/globalscratch/cmsbril/PLT/DQM/";
+	char filenameROOT[160];
+	sprintf(filenameROOT, "run%06d/run%06d_ls%04d_streamDQMPLT_eventing-bus.root", run, run, ls );
 	TFile DQMFile(strcat(outFolderROOT,filenameROOT), "RECREATE");
-	char filedirROOT[80];
+	char filedirROOT[160];
 
-	char outFolderDAT[80] = "/cmsnfsscratch/globalscratch/cmsbril/PLT/DQM/";
-	char filenameDAT[80];
-	sprintf(filenameDAT, "run%i/run%i_ls%d_streamDQMPLT_eventing-bus.dat", run, run, ls );
+	char outFolderDAT[160] = "/cmsnfsscratch/globalscratch/cmsbril/PLT/DQM/";
+	char filenameDAT[160];
+	sprintf(filenameDAT, "run%06d/run%06d_ls%04d_streamDQMPLT_eventing-bus.dat", run, run, ls );
 	int dumCounter = 0;
 
 
@@ -441,8 +464,11 @@ void bril::pltslinkprocessor::Application::make_plots(){
 
 			eachPlot.put( "type", "2D" );
 			char titles[80];
-			sprintf( titles, "OccupancyPlot_CHA%i_ROC%i, Row (ROC %i), Column (ROC %i)", ihist, iroc, iroc, iroc );
+			sprintf( titles, "OccupancyPlot_CHA%02d_ROC%02d, Row (ROC %02d), Column (ROC %02d)", ihist, iroc, iroc, iroc );
 			eachPlot.put( "titles", titles );
+			char names[80];
+			sprintf( names, m_OccupancyPlots[((ihist*3)+iroc)]->GetName());
+			eachPlot.put( "names", names );
 			ptree nbinsX, nbinsY;
 			ptree plotNbins;
 			nbinsX.put("", 100);
@@ -495,11 +521,14 @@ void bril::pltslinkprocessor::Application::make_plots(){
 	write_json( strcat(outFolderDAT,filenameDAT), dataJsonPtree);
 
 
-	char outFolder[80] = "/cmsnfsscratch/globalscratch/cmsbril/PLT/DQM/";
-	char filenameJSN[80];
-	sprintf(filenameJSN, "run%i/run%i_ls%i_streamDQMPLT_eventing-bus.jsn", run, run, ls );
-	char filenameDATv2[80];
-	sprintf(filenameDATv2, "run%i_ls%d_streamDQMPLT_eventing-bus.dat", run, ls );
+	char outFolder[160] = "/cmsnfsscratch/globalscratch/cmsbril/PLT/DQM/";
+	char filenameJSN[160];
+	sprintf(filenameJSN, "run%06d/run%06d_ls%04d_streamDQMPLT_eventing-bus.jsn", run, run, ls );
+	char tmpOutFolder[160] = "/cmsnfsscratch/globalscratch/cmsbril/PLT/DQM/";
+	char tmpFilenameJSN[160];
+	sprintf(tmpFilenameJSN, "run%06d/run%06d_ls%04d_streamDQMPLT_eventing-bus.tmp", run, run, ls );
+	char filenameDATv2[160];
+	sprintf(filenameDATv2, "run%06d_ls%04d_streamDQMPLT_eventing-bus.dat", run, ls );
 	ptree jsonPtree;
 	ptree infoData, infoEntries, infoFilename, infoZeros, infoEmpty;
 	infoEntries.put<int>("", ientry);
@@ -517,7 +546,8 @@ void bril::pltslinkprocessor::Application::make_plots(){
 	infoData.push_back(std::make_pair("", infoZeros));
 	infoData.push_back(std::make_pair("", infoEmpty));
 	jsonPtree.add_child( "data", infoData );
-	write_json( strcat(outFolder,filenameJSN), jsonPtree);
+	write_json( strcat(tmpOutFolder,tmpFilenameJSN), jsonPtree);
+	std::rename( tmpOutFolder, strcat(outFolder,filenameJSN) );
 
 
 	DQMFile.Write();

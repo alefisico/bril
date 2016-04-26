@@ -90,3 +90,4 @@ TestExecutables=
 
 include $(XDAQ_ROOT)/config/Makefile.rules
 include $(XDAQ_ROOT)/config/mfRPM.rules
+
